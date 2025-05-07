@@ -19,6 +19,9 @@
 }
 .panel {
   transition: margin 0.5s ease-in-out;
+  @media (prefers-reduced-motion) {
+    transition: none;
+  }
   box-sizing: border-box;
   position: relative;
   border: dashed thin green;

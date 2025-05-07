@@ -4791,6 +4791,11 @@ std-env@^3.9.0:
   resolved "https://registry.yarnpkg.com/std-env/-/std-env-3.9.0.tgz#1a6f7243b339dca4c9fd55e1c7504c77ef23e8f1"
   integrity sha512-UGvjygr6F6tpH7o2qyqR6QYpwraIjKSdtzyBdyytFOHmPZY917kwdwLG0RbOjWOnKmnm3PeHjaoLLMie7kPLQw==
 
+storybook-addon-render-modes@^0.0.11:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/storybook-addon-render-modes/-/storybook-addon-render-modes-0.0.11.tgz#39e2ac9bfa2e2649b0d8573fff5e1b87e6777771"
+  integrity sha512-+KqkJq/rDftxWu1nvsaaewhEqmv3SYt4QHT+m4h3kjy0TkrYUL+75zpjv3Jf5gQYpmeUySgZGJdCzaYhNCE5eg==
+
 storybook@8.6.0-alpha.0:
   version "8.6.0-alpha.0"
   resolved "https://registry.yarnpkg.com/storybook/-/storybook-8.6.0-alpha.0.tgz#ec02fd6a6268cb389169b40d492a77248e81e406"
