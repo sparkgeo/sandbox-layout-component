@@ -19,11 +19,11 @@ export interface LayoutPanelsProps {
   children: ReactNode;
   isLeftPanelOpen?: boolean;
   isLeftPanelResizable?: boolean;
-  isLeftPanelToggelable?: boolean;
+  isLeftPanelToggleable?: boolean;
   isLeftSubpanelOpen?: boolean;
   isRightPanelOpen?: boolean;
   isRightPanelResizable?: boolean;
-  isRightPanelToggelable?: boolean;
+  isRightPanelToggleable?: boolean;
   leftPanelClassName?: string;
   leftPanelContent?: ReactNode;
   leftPanelToggleButton?: ReactElement;
@@ -41,11 +41,11 @@ export const LayoutPanels = ({
   children,
   isLeftPanelOpen = undefined,
   isLeftPanelResizable = false,
-  isLeftPanelToggelable = true,
+  isLeftPanelToggleable = true,
   isLeftSubpanelOpen = undefined,
   isRightPanelOpen = undefined,
   isRightPanelResizable = false,
-  isRightPanelToggelable = true,
+  isRightPanelToggleable = true,
   leftPanelClassName = undefined,
   leftPanelContent = undefined,
   leftPanelToggleButton = undefined,
@@ -77,6 +77,11 @@ export const LayoutPanels = ({
 
   const isLeftPanelOpenToUse = isLeftPanelOpen ?? isLeftPanelOpenInternal;
   const isRightPanelOpenToUse = isRightPanelOpen ?? isRightPanelOpenInternal;
+  const [isLeftPanelContentShowing, setIsLeftPanelContentShowing] =
+    useState(isLeftPanelOpenToUse);
+  const [isRightPanelContentShowing, setIsRightPanelContentShowing] = useState(
+    isRightPanelOpenToUse,
+  );
   const setIsLeftPanelOpenToUse =
     setIsLeftPanelOpen ?? setIsLeftPanelOpenInternal;
   const setIsRightPanelOpenToUse =
@@ -127,14 +132,36 @@ export const LayoutPanels = ({
       },
     });
   };
-  const handleRightToggleButtonClick = () =>
+  const handleLeftPanelTransitionEnd = () => {
+    if (!isLeftPanelOpenToUse) {
+      setIsLeftPanelContentShowing(false); // in addition to moving panels over, we hide content to assistive technology, tabbing
+    }
+  };
+  const handleRightPanelTransitionEnd = () => {
+    if (!isRightPanelOpenToUse) {
+      setIsRightPanelContentShowing(false); // in addition to moving panels over, we hide content to assistive technology, tabbing
+    }
+  };
+
+  const handleRightToggleButtonClick = () => {
+    if (!isRightPanelOpenToUse) {
+      // ensure panel content is visible to assistive technology and tabbing before the panels are shown
+      setIsRightPanelContentShowing(true);
+    }
     setIsRightPanelOpenToUse((previous) => !previous);
-  const handleLeftToggleButtonClick = () =>
+  };
+  const handleLeftToggleButtonClick = () => {
+    if (!isLeftPanelOpenToUse) {
+      // ensure panel content is visible to assistive technology and tabbing before the panels are shown
+      setIsLeftPanelContentShowing(true);
+    }
     setIsLeftPanelOpenToUse((previous) => !previous);
+  };
   const internalRightPanelCloseButton = (
     <button
       className={layoutPanelStyles.panelCloseButton}
       onClick={handleRightToggleButtonClick}
+      aria-label="Toggle right panel"
     >
       {isRightPanelOpenToUse ? ">" : "<"}
     </button>
@@ -143,6 +170,7 @@ export const LayoutPanels = ({
     <button
       className={layoutPanelStyles.panelCloseButton}
       onClick={handleLeftToggleButtonClick}
+      aria-label="Toggle left panel"
     >
       {isLeftPanelOpenToUse ? "<" : ">"}
     </button>
@@ -150,49 +178,57 @@ export const LayoutPanels = ({
   const rightPanelButtonToUse = rightPanelToggleButton
     ? cloneElement(rightPanelToggleButton, {
         onClick: handleRightToggleButtonClick,
+        "aria-label": "Toggle right panel",
       })
     : internalRightPanelCloseButton;
 
   const leftPanelButtonToUse = leftPanelToggleButton
     ? cloneElement(leftPanelToggleButton, {
         onClick: handleLeftToggleButtonClick,
+        "aria-label": "Toggle left panel",
       })
     : internalLeftPanelCloseButton;
 
-  return (
-    <div className={layoutPanelStyles.layoutPanelsWrapper}>
-      {leftPanelContent ? (
-        <div
-          className={`${layoutPanelStyles.panel} ${leftPanelClassName ?? ""}`}
-          style={leftPanelDynamicStyles}
-          ref={leftPanelRef}
-        >
-          {isLeftPanelToggelable ? (
-            <div className={layoutPanelStyles.leftPanelCloseTab}>
-              {leftPanelButtonToUse}
-            </div>
-          ) : null}
-          {subpanelContent ? (
-            <PanelContentsWithSubpanel
-              isSubpanelOpen={isLeftSubpanelOpen!} // we ensure this is defined above
-              setIsSubpanelOpen={setIsLeftSubpanelOpen!} // we ensure this is defined above
-              subpanelContent={subpanelContent}
-              mainPanelContent={leftPanelContent}
-              isLeftPanelOpen={isLeftPanelOpenToUse}
-              subpanelClassName={subpanelClassName}
-            ></PanelContentsWithSubpanel>
-          ) : (
-            leftPanelContent
-          )}
-          {isLeftPanelResizable ? (
-            <button
-              className={layoutPanelStyles.leftPanelResizerTarget}
-              onMouseDown={dragToResizeLeftPanel}
-              onTouchStart={dragToResizeLeftPanel}
-            />
-          ) : null}
+  const configuredLeftPanel = (
+    <div
+      className={`${layoutPanelStyles.panel} ${leftPanelClassName ?? ""}`}
+      style={leftPanelDynamicStyles}
+      ref={leftPanelRef}
+      onTransitionEnd={handleLeftPanelTransitionEnd}
+      data-testid="leftPanel"
+    >
+      {isLeftPanelToggleable ? (
+        <div className={layoutPanelStyles.leftPanelCloseTab}>
+          {leftPanelButtonToUse}
         </div>
       ) : null}
+      {
+        // we hide panel contents in addition animating margins explicitly to ensure they arent visible to
+        // assistive technology, or tabbing. This also makes hiding and showing panels testable.
+        isLeftPanelContentShowing ? (
+          <PanelContentsWithSubpanel
+            isSubpanelOpen={isLeftSubpanelOpen}
+            setIsSubpanelOpen={setIsLeftSubpanelOpen}
+            subpanelContent={subpanelContent}
+            mainPanelContent={leftPanelContent}
+            isLeftPanelOpen={isLeftPanelOpenToUse}
+            subpanelClassName={subpanelClassName}
+          />
+        ) : null
+      }
+      {isLeftPanelResizable ? (
+        <button
+          className={layoutPanelStyles.leftPanelResizerTarget}
+          onMouseDown={dragToResizeLeftPanel}
+          onTouchStart={dragToResizeLeftPanel}
+        />
+      ) : null}
+    </div>
+  );
+
+  return (
+    <div className={layoutPanelStyles.layoutPanelsWrapper}>
+      {leftPanelContent ? configuredLeftPanel : null}
       <div className={layoutPanelStyles.centerSection}>{children}</div>
 
       {rightPanelContent ? (
@@ -200,13 +236,15 @@ export const LayoutPanels = ({
           className={`${layoutPanelStyles.panel} ${rightPanelClassName ?? ""}`}
           style={rightPanelDynamicStyles}
           ref={rightPanelRef}
+          onTransitionEnd={handleRightPanelTransitionEnd}
+          data-testid="rightPanel"
         >
-          {isRightPanelToggelable ? (
+          {isRightPanelToggleable ? (
             <div className={layoutPanelStyles.rightPanelCloseTab}>
               {rightPanelButtonToUse}
             </div>
           ) : null}
-          {rightPanelContent}
+          {isRightPanelContentShowing ? rightPanelContent : null}
           {isRightPanelResizable ? (
             <button
               className={layoutPanelStyles.rightPanelResizerTarget}

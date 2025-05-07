@@ -5,16 +5,16 @@ import { useCloseSubpanelWhenParentPanelCloses } from "./useCloseSubpanelWhenPar
 
 export const PanelContentsWithSubpanel = ({
   isLeftPanelOpen,
-  isSubpanelOpen = true,
+  isSubpanelOpen = false,
   mainPanelContent,
-  setIsSubpanelOpen,
+  setIsSubpanelOpen = () => {},
   subpanelClassName = undefined,
   subpanelContent,
 }: {
   isLeftPanelOpen: boolean;
-  isSubpanelOpen: boolean;
+  isSubpanelOpen?: boolean;
   mainPanelContent: ReactNode;
-  setIsSubpanelOpen: (arg: boolean) => unknown;
+  setIsSubpanelOpen?: (arg: boolean) => unknown;
   subpanelClassName?: string;
   subpanelContent: ReactNode;
 }) => {
