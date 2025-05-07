@@ -8,11 +8,11 @@ import { useInitializeMap } from "./couldBeSharedComponents/Map/useInitializeMap
 
 function App() {
   const [isLeftPanelOpenOverride, setIsLeftPanelOpenOverride] = useState(true);
-  const [isLeftSubpanelOpen, setIsLeftSubpanelOpen] = useState(true);
+  const [isSubpanelOpen, setIsSubpanelOpen] = useState(true);
 
   useCloseSubpanelWhenParentPanelCloses({
     isLeftPanelOpen: isLeftPanelOpenOverride,
-    setIsSubpanelOpen: setIsLeftSubpanelOpen,
+    setIsSubpanelOpen: setIsSubpanelOpen,
   });
 
   const customHandleLeftPanelToggle = () => {
@@ -35,7 +35,7 @@ function App() {
           <>
             Optional left Panel
             <br />
-            <button onClick={() => setIsLeftSubpanelOpen(!isLeftSubpanelOpen)}>
+            <button onClick={() => setIsSubpanelOpen(!isSubpanelOpen)}>
               toggle subpanel
             </button>
             <br />
@@ -57,8 +57,8 @@ function App() {
         isLeftPanelOpen={isLeftPanelOpenOverride}
         isLeftPanelResizable={true}
         isRightPanelResizable={true}
-        isLeftSubpanelOpen={isLeftSubpanelOpen}
-        setIsLeftSubpanelOpen={setIsLeftSubpanelOpen}
+        isSubpanelOpen={isSubpanelOpen}
+        setIsSubpanelOpen={setIsSubpanelOpen}
       >
         <Map
           mapContainer={mapContainer}
