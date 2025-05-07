@@ -66,8 +66,8 @@ const SubpanelDemo = (props: {
       rightPanelContent={<RightPanelContent />}
       isLeftPanelOpen={isLeftPanelOpen}
       setIsLeftPanelOpen={setIsLeftPanelOpen}
-      isLeftSubpanelOpen={isSubpanelOpen}
-      setIsLeftSubpanelOpen={setIsSubpanelOpen}
+      isSubpanelOpen={isSubpanelOpen}
+      setIsSubpanelOpen={setIsSubpanelOpen}
       {...props}
     >
       {<MainContent />}

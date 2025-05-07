@@ -20,7 +20,7 @@ export interface LayoutPanelsProps {
   isLeftPanelOpen?: boolean;
   isLeftPanelResizable?: boolean;
   isLeftPanelToggleable?: boolean;
-  isLeftSubpanelOpen?: boolean;
+  isSubpanelOpen?: boolean;
   isRightPanelOpen?: boolean;
   isRightPanelResizable?: boolean;
   isRightPanelToggleable?: boolean;
@@ -31,7 +31,7 @@ export interface LayoutPanelsProps {
   rightPanelContent?: ReactNode;
   rightPanelToggleButton?: ReactElement;
   setIsLeftPanelOpen?: Dispatch<SetStateAction<boolean>>;
-  setIsLeftSubpanelOpen?: Dispatch<SetStateAction<boolean>>;
+  setIsSubpanelOpen?: Dispatch<SetStateAction<boolean>>;
   setIsRightPanelOpen?: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -42,7 +42,7 @@ export const LayoutPanels = ({
   isLeftPanelOpen = undefined,
   isLeftPanelResizable = false,
   isLeftPanelToggleable = true,
-  isLeftSubpanelOpen = undefined,
+  isSubpanelOpen = undefined,
   isRightPanelOpen = undefined,
   isRightPanelResizable = false,
   isRightPanelToggleable = true,
@@ -52,18 +52,15 @@ export const LayoutPanels = ({
   rightPanelContent = undefined,
   rightPanelToggleButton = undefined,
   setIsLeftPanelOpen = undefined,
-  setIsLeftSubpanelOpen = undefined,
+  setIsSubpanelOpen = undefined,
   setIsRightPanelOpen = undefined,
   subpanelContent = undefined,
 }: LayoutPanelsProps) => {
   const leftPanelRef = useRef<HTMLDivElement>(null);
   const rightPanelRef = useRef<HTMLDivElement>(null);
-  if (
-    subpanelContent &&
-    (!setIsLeftSubpanelOpen || isLeftSubpanelOpen === undefined)
-  ) {
+  if (subpanelContent && (!setIsSubpanelOpen || isSubpanelOpen === undefined)) {
     throw new Error(
-      "subpanelContent prop was provided, but setIsLeftSubpanelOpen and isLeftSubpanelOpen were not provided. This is required to control the subpanel's open state. isLeftSubpanelOpen must be initialized to a boolean value",
+      "subpanelContent prop was provided, but setIsSubpanelOpen and isSubpanelOpen were not provided. This is required to control the subpanel's open state. isSubpanelOpen must be initialized to a boolean value",
     );
   }
   const [isLeftPanelOpenInternal, setIsLeftPanelOpenInternal] = useState(true);
@@ -207,8 +204,8 @@ export const LayoutPanels = ({
         // assistive technology, or tabbing. This also makes hiding and showing panels testable.
         isLeftPanelContentShowing ? (
           <PanelContentsWithSubpanel
-            isSubpanelOpen={isLeftSubpanelOpen}
-            setIsSubpanelOpen={setIsLeftSubpanelOpen}
+            isSubpanelOpen={isSubpanelOpen}
+            setIsSubpanelOpen={setIsSubpanelOpen}
             subpanelContent={subpanelContent}
             mainPanelContent={leftPanelContent}
             isLeftPanelOpen={isLeftPanelOpenToUse}
