@@ -50,7 +50,10 @@ export const PanelContentsWithSubpanel = ({
           style={widthStylesOverride}
           ref={subpanelRef}
         >
-          <ButtonXTopRight onPress={closeSubpanel} />
+          <ButtonXTopRight
+            onPress={closeSubpanel}
+            aria-label="Close sub panel"
+          />
           {subpanelContent}
         </div>
       ) : null}
