@@ -140,18 +140,24 @@ export const LayoutPanels = ({
     }
   };
 
+  useEffect(
+    function syncContentVisibilityToPanelVisibility() {
+      // Ensure panel content is visible to assistive technology and tabbing before the panels are shown
+      // We only sync when panels are showing. The transition end handler functions are responsible
+      // for hiding content when panels are closed (we don't hide content before the transition ends as that would be jarring).
+      if (isLeftPanelOpenToUse) {
+        setIsLeftPanelContentShowing(true);
+      }
+      if (isRightPanelOpenToUse) {
+        setIsRightPanelContentShowing(true);
+      }
+    },
+    [isLeftPanelOpenToUse, isRightPanelOpenToUse],
+  );
   const handleRightToggleButtonClick = () => {
-    if (!isRightPanelOpenToUse) {
-      // ensure panel content is visible to assistive technology and tabbing before the panels are shown
-      setIsRightPanelContentShowing(true);
-    }
     setIsRightPanelOpenToUse((previous) => !previous);
   };
   const handleLeftToggleButtonClick = () => {
-    if (!isLeftPanelOpenToUse) {
-      // ensure panel content is visible to assistive technology and tabbing before the panels are shown
-      setIsLeftPanelContentShowing(true);
-    }
     setIsLeftPanelOpenToUse((previous) => !previous);
   };
   const internalRightPanelCloseButton = (
