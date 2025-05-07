@@ -153,7 +153,6 @@ const CustomToggleButtonsDemo = () => {
       <LayoutPanels
         leftPanelContent={<LeftPanelContent />}
         rightPanelContent={<RightPanelContent />}
-        children={<MainContent />}
         isLeftPanelOpen={isLeftPanelOpen}
         isRightPanelOpen={isRightPanelOpen}
         setIsLeftPanelOpen={setIsLeftPanelOpen}
@@ -172,7 +171,9 @@ const CustomToggleButtonsDemo = () => {
         }
         isLeftPanelResizable={true}
         isRightPanelResizable={true}
-      />
+      >
+        <MainContent />
+      </LayoutPanels>
     </LayoutApp>
   );
 };
