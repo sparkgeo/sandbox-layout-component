@@ -2,18 +2,12 @@ import { LayoutApp } from "./couldBeSharedComponents/LayoutApp/LayoutApp";
 import { LayoutPanels } from "./couldBeSharedComponents/LayoutPanels/LayoutPanels";
 
 import { useState } from "react";
-import { useCloseSubpanelWhenParentPanelCloses } from "./PanelContentsWithSubpanel/useCloseSubpanelWhenParentPanelCloses";
 import { Map } from "./couldBeSharedComponents/Map/Map";
 import { useInitializeMap } from "./couldBeSharedComponents/Map/useInitializeMap";
 
 function App() {
   const [isLeftPanelOpenOverride, setIsLeftPanelOpenOverride] = useState(true);
   const [isSubpanelOpen, setIsSubpanelOpen] = useState(true);
-
-  useCloseSubpanelWhenParentPanelCloses({
-    isLeftPanelOpen: isLeftPanelOpenOverride,
-    setIsSubpanelOpen: setIsSubpanelOpen,
-  });
 
   const customHandleLeftPanelToggle = () => {
     setIsLeftPanelOpenOverride((previous) => !previous);

@@ -29,6 +29,7 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
       "no-console": "error",
+      "react-hooks/exhaustive-deps": "error",
     },
   },
 );

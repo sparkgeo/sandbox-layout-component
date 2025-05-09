@@ -11,7 +11,7 @@ import {
 } from "react";
 import layoutPanelStyles from "./LayoutPanels.module.scss";
 import { dragToResizePanelWidth } from "../../library/dom/dragToResizePanelWidth";
-import { PanelContentsWithSubpanel } from "../../PanelContentsWithSubpanel/PanelContentsWithSubpanel";
+import { PanelContentsWrapperWithOptionalSubpanel } from "./PanelContentsWrapperWithOptionalSubpanel/PanelContentsWrapperWithOptionalSubpanel";
 
 export interface LayoutPanelsProps {
   subpanelClassName?: string;
@@ -209,7 +209,7 @@ export const LayoutPanels = ({
         // we hide panel contents in addition animating margins explicitly to ensure they arent visible to
         // assistive technology, or tabbing. This also makes hiding and showing panels testable.
         isLeftPanelContentShowing ? (
-          <PanelContentsWithSubpanel
+          <PanelContentsWrapperWithOptionalSubpanel
             isSubpanelOpen={isSubpanelOpen}
             setIsSubpanelOpen={setIsSubpanelOpen}
             subpanelContent={subpanelContent}
