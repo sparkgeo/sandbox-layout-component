@@ -19,15 +19,16 @@
 }
 .panel {
   transition: margin 0.5s ease-in-out;
-  @media (prefers-reduced-motion) {
-    transition: none;
-  }
   box-sizing: border-box;
   position: relative;
   border: dashed thin green;
   width: 300px; // this may be overriden in JavaScript when the user drags to resize a panel
   min-width: 200px;
   max-width: 500px;
+
+  @media (prefers-reduced-motion) {
+    transition: none;
+  }
 }
 
 .panelCloseButton {
