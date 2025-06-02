@@ -93,7 +93,7 @@ Content for the subpanel
 1. Add supporting type dependencies to your project. `yarn add -D @types/react-dom @types/react`
 1. Configure testing and other types in your typescript config file. `compilerOptions.types` should include `vitest/globals` and `@testing-library/jest-dom`
 1. Create a container you would like the layout component to fit. Typically this would be fill any remainder of the screen not taken up by a header and footer. The component will not work without a parent that has dimensions set.
-   - For conveinence you can copy a `LayoutApp` folder from `src/components/` and paste it into your app. You may use this as a parent to `LayoutPanels`. It has the following optional props for header and footer content:
+   - For convenience you can copy a `LayoutApp` folder from `src/components/` and paste it into your app. You may use this as a parent to `LayoutPanels`. It has the following optional props for header and footer content:
      - `footerContent`
      - `headerContent`
 
