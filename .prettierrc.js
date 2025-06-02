@@ -1,5 +1,5 @@
 const config = {
-  trailingComma: "all",
+  trailingComma: "es5",
 };
 
 export default config;

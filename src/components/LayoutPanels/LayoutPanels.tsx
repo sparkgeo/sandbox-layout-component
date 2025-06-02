@@ -51,7 +51,7 @@ export const LayoutPanels = ({
   const rightPanelRef = useRef<HTMLDivElement>(null);
   if (subpanelContent && (!setIsSubpanelOpen || isSubpanelOpen === undefined)) {
     throw new Error(
-      "subpanelContent prop was provided, but setIsSubpanelOpen and isSubpanelOpen were not provided. This is required to control the subpanel's open state. isSubpanelOpen must be initialized to a boolean value",
+      "subpanelContent prop was provided, but setIsSubpanelOpen and isSubpanelOpen were not provided. This is required to control the subpanel's open state. isSubpanelOpen must be initialized to a boolean value"
     );
   }
   const [isLeftPanelOpenInternal, setIsLeftPanelOpenInternal] = useState(true);
@@ -68,7 +68,7 @@ export const LayoutPanels = ({
   const [isLeftPanelContentShowing, setIsLeftPanelContentShowing] =
     useState(isLeftPanelOpenToUse);
   const [isRightPanelContentShowing, setIsRightPanelContentShowing] = useState(
-    isRightPanelOpenToUse,
+    isRightPanelOpenToUse
   );
   const setIsLeftPanelOpenToUse =
     setIsLeftPanelOpen ?? setIsLeftPanelOpenInternal;
@@ -95,7 +95,7 @@ export const LayoutPanels = ({
   }, []);
 
   const dragToResizeLeftPanel = (
-    event: React.MouseEvent | React.TouchEvent,
+    event: React.MouseEvent | React.TouchEvent
   ) => {
     dragToResizePanelWidth({
       event,
@@ -108,7 +108,7 @@ export const LayoutPanels = ({
   };
 
   const dragToResizeRightPanel = (
-    event: React.MouseEvent | React.TouchEvent,
+    event: React.MouseEvent | React.TouchEvent
   ) => {
     dragToResizePanelWidth({
       event,
@@ -143,7 +143,7 @@ export const LayoutPanels = ({
         setIsRightPanelContentShowing(true);
       }
     },
-    [isLeftPanelOpenToUse, isRightPanelOpenToUse],
+    [isLeftPanelOpenToUse, isRightPanelOpenToUse]
   );
   const handleRightToggleButtonClick = () => {
     setIsRightPanelOpenToUse((previous) => !previous);
