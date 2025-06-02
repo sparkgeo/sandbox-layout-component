@@ -106,3 +106,7 @@ Content for the subpanel
 ## Launching Storybook
 
 - run `yarn storybook`
+
+## Development notes:
+
+- Our current folder structure and location of code is to prioritize easy copy pasting of the LayoutPanels component. This is due to the nature of our consulting work and this abstraction being produced and maintained in a side-of-the-desk capacity. We're experimenting with this approach to prevent blocking project work and also prevent rushed and reactionary PR requests to this repo.
