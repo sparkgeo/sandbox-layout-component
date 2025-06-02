@@ -42,7 +42,7 @@ Optional override to manually control panel visibility from consuming code.
 
 #### leftPanelClassName?: `string`;
 
-CSS classname to overide panel styles.
+CSS classname to override panel styles.
 
 #### leftPanelContent?: `ReactNode`;
 
