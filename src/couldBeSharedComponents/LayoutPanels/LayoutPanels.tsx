@@ -1,29 +1,18 @@
-import {
-  cloneElement,
-  Dispatch,
-  ReactElement,
-  ReactNode,
-  SetStateAction,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import type { Dispatch, ReactElement, ReactNode, SetStateAction } from "react";
+import { cloneElement, useEffect, useMemo, useRef, useState } from "react";
 import layoutPanelStyles from "./LayoutPanels.module.scss";
-import { dragToResizePanelWidth } from "../../library/dom/dragToResizePanelWidth";
+import { dragToResizePanelWidth } from "./library/dom/dragToResizePanelWidth";
 import { PanelContentsWrapperWithOptionalSubpanel } from "./PanelContentsWrapperWithOptionalSubpanel/PanelContentsWrapperWithOptionalSubpanel";
 
 export interface LayoutPanelsProps {
-  subpanelClassName?: string;
-  subpanelContent?: ReactNode;
   children: ReactNode;
   isLeftPanelOpen?: boolean;
   isLeftPanelResizable?: boolean;
   isLeftPanelToggleable?: boolean;
-  isSubpanelOpen?: boolean;
   isRightPanelOpen?: boolean;
   isRightPanelResizable?: boolean;
   isRightPanelToggleable?: boolean;
+  isSubpanelOpen?: boolean;
   leftPanelClassName?: string;
   leftPanelContent?: ReactNode;
   leftPanelToggleButton?: ReactElement;
@@ -31,29 +20,31 @@ export interface LayoutPanelsProps {
   rightPanelContent?: ReactNode;
   rightPanelToggleButton?: ReactElement;
   setIsLeftPanelOpen?: Dispatch<SetStateAction<boolean>>;
-  setIsSubpanelOpen?: Dispatch<SetStateAction<boolean>>;
   setIsRightPanelOpen?: Dispatch<SetStateAction<boolean>>;
+  setIsSubpanelOpen?: Dispatch<SetStateAction<boolean>>;
+  subpanelClassName?: string;
+  subpanelContent?: ReactNode;
 }
 
 export const LayoutPanels = ({
-  rightPanelClassName = undefined,
-  subpanelClassName = undefined,
   children,
   isLeftPanelOpen = undefined,
   isLeftPanelResizable = false,
   isLeftPanelToggleable = true,
-  isSubpanelOpen = undefined,
   isRightPanelOpen = undefined,
   isRightPanelResizable = false,
   isRightPanelToggleable = true,
+  isSubpanelOpen = undefined,
   leftPanelClassName = undefined,
   leftPanelContent = undefined,
   leftPanelToggleButton = undefined,
+  rightPanelClassName = undefined,
   rightPanelContent = undefined,
   rightPanelToggleButton = undefined,
   setIsLeftPanelOpen = undefined,
-  setIsSubpanelOpen = undefined,
   setIsRightPanelOpen = undefined,
+  setIsSubpanelOpen = undefined,
+  subpanelClassName = undefined,
   subpanelContent = undefined,
 }: LayoutPanelsProps) => {
   const leftPanelRef = useRef<HTMLDivElement>(null);

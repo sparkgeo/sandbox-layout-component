@@ -1,6 +1,6 @@
-import { ReactNode, useEffect } from "react";
+import { type ReactNode, useEffect } from "react";
 
-import { ButtonXTopRight } from "../../buttons/ButtonXTopRight";
+import { ButtonXTopRight } from "../DefaultButtons/ButtonXTopRight";
 import panelContentsWrapperStyles from "./PanelContentsWrapperWithOptionalSubpanel.module.scss";
 
 export const PanelContentsWrapperWithOptionalSubpanel = ({
