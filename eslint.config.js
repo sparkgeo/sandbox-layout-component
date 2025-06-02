@@ -30,6 +30,7 @@ export default tseslint.config(
       ],
       "no-console": "error",
       "react-hooks/exhaustive-deps": "error",
+      "@typescript-eslint/consistent-type-imports": "error",
     },
   },
 );

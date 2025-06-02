@@ -1,7 +1,7 @@
 import "maplibre-gl/dist/maplibre-gl.css";
 
 import mapStyles from "./Map.module.css";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 export const Map = ({
   additionalControls,
