@@ -87,10 +87,17 @@ Content for the subpanel
 ## Getting started - consuming the component in your own app.
 
 1. Set up a React app. For example run `yarn create vite appName --template react-ts` and follow instructions for a setting up a React app as documented [here](https://vite.dev/guide/#scaffolding-your-first-vite-project)
-1. Copy the contents of `src/LayoutPanels` in this repo into your codebase. If you are starting from scratch with the above example, you might put this `LayoutPanels` component into your project's `src` or `src/components` folder.
-1. Add `vitest` to your project. `yarn add -D vitest`. Or optionally, but not advised, you can remove any test files copied in the previous step.
 
-## Getting started - for devs
+1. Copy the `LayoutPanels` folder in `src/components` in this repo into your codebase. If you are starting from scratch with the above example, you might put this `LayoutPanels` component into your project's `src` or `src/components` folder.
+1. Add `vitest` and `@testing-library` to your project. `yarn add -D vitest @testing-library/jest-dom @testing-library/react @testing-library/user-event`. Or optionally, but less ideal, you can remove any test files copied in the previous step.
+1. Add supporting type dependencies to your project. `yarn add -D @types/react-dom @types/react`
+1. Configure testing and other types in your typescript config file. `compilerOptions.types` should include `vitest/globals` and `@testing-library/jest-dom`
+1. Create a container you would like the layout component to fit. Typically this would be fill any remainder of the screen not taken up by a header and footer. The component will not work without a parent that has dimensions set.
+   - For conveinence you can copy a `LayoutApp` folder from `src/components/` and paste it into your app. You may use this as a parent to `LayoutPanels`. It has the following optional props for header and footer content:
+     - `footerContent`
+     - `headerContent`
+
+## Getting started - for LayoutPanel devs (to edit this repo)
 
 - make sure you are using the right node version (check `.nvmrc` or run `nvm use`)
 - run `yarn install`
