@@ -1,4 +1,4 @@
-import { ButtonProps } from "react-aria-components";
+import { type ButtonProps } from "react-aria-components";
 import { ButtonX } from "./ButtonX";
 import styles from "./ButtonXTopright.module.scss";
 

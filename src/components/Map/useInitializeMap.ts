@@ -1,6 +1,8 @@
-import Maplibregl, { LngLatLike, Map as MaplibreMap } from "maplibre-gl";
+import type { LngLatLike, Map as MaplibreMap } from "maplibre-gl";
+import Maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { MutableRefObject, useEffect, useRef, useState } from "react";
+import type { MutableRefObject } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // import { MAP_MAX_ZOOM, MapSourceIds } from "../../configuration/constants";
 

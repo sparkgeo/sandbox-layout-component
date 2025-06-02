@@ -1,9 +1,9 @@
-import { LayoutApp } from "./couldBeSharedComponents/LayoutApp/LayoutApp";
-import { LayoutPanels } from "./couldBeSharedComponents/LayoutPanels/LayoutPanels";
+import { LayoutApp } from "./components/LayoutApp/LayoutApp";
+import { LayoutPanels } from "./components/LayoutPanels/LayoutPanels";
 
 import { useState } from "react";
-import { Map } from "./couldBeSharedComponents/Map/Map";
-import { useInitializeMap } from "./couldBeSharedComponents/Map/useInitializeMap";
+import { Map } from "./components/Map/Map";
+import { useInitializeMap } from "./components/Map/useInitializeMap";
 
 function App() {
   const [isLeftPanelOpenOverride, setIsLeftPanelOpenOverride] = useState(true);

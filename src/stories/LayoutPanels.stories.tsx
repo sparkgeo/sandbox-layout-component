@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { LayoutPanels } from "../couldBeSharedComponents/LayoutPanels/LayoutPanels";
-import { LayoutApp } from "../couldBeSharedComponents/LayoutApp/LayoutApp";
+import { LayoutPanels } from "../components/LayoutPanels/LayoutPanels";
+import { LayoutApp } from "../components/LayoutApp/LayoutApp";
 import storyStyles from "./LayoutPanel.stories.module.scss";
 
 const meta: Meta<typeof LayoutPanels> = {
