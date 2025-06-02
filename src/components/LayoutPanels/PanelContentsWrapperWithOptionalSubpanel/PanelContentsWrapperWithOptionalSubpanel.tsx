@@ -28,7 +28,7 @@ export const PanelContentsWrapperWithOptionalSubpanel = ({
         setIsSubpanelOpen(false);
       }
     },
-    [isLeftPanelOpen, setIsSubpanelOpen],
+    [isLeftPanelOpen, setIsSubpanelOpen]
   );
 
   const widthStylesOverride = !isSubpanelOpen

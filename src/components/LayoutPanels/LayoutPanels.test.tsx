@@ -11,7 +11,7 @@ describe("Layout Panels default", async () => {
         rightPanelContent={<>right panel content</>}
       >
         main content
-      </LayoutPanels>,
+      </LayoutPanels>
     );
 
     expect(screen.getByText("left panel content")).toBeInTheDocument();
@@ -57,8 +57,8 @@ describe("Layout Panels using a subpanel", () => {
           subpanelContent={<>subpanel content</>}
         >
           main content
-        </LayoutPanels>,
-      ),
+        </LayoutPanels>
+      )
     ).toThrow();
     expect(() =>
       render(
@@ -69,8 +69,8 @@ describe("Layout Panels using a subpanel", () => {
           setIsSubpanelOpen={() => {}} // setter but missing state
         >
           main content
-        </LayoutPanels>,
-      ),
+        </LayoutPanels>
+      )
     ).toThrow();
     expect(() =>
       render(
@@ -81,8 +81,8 @@ describe("Layout Panels using a subpanel", () => {
           isSubpanelOpen={true} // state but missing setter
         >
           main content
-        </LayoutPanels>,
-      ),
+        </LayoutPanels>
+      )
     ).toThrow();
     expect(() =>
       render(
@@ -94,8 +94,8 @@ describe("Layout Panels using a subpanel", () => {
           setIsSubpanelOpen={() => {}}
         >
           main content
-        </LayoutPanels>,
-      ),
+        </LayoutPanels>
+      )
     ).not.toThrow();
   });
   it("Opens and closes the subpanel as expected", () => {

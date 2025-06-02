@@ -32,7 +32,7 @@ export const useInitializeMap = (config?: {
         zoom: zoom,
       });
     },
-    [initialCenter, initialZoom],
+    [initialCenter, initialZoom]
   );
 
   useEffect(function initializeIsMapLoaded() {

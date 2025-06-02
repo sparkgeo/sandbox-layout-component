@@ -32,5 +32,5 @@ export default tseslint.config(
       "react-hooks/exhaustive-deps": "error",
       "@typescript-eslint/consistent-type-imports": "error",
     },
-  },
+  }
 );
