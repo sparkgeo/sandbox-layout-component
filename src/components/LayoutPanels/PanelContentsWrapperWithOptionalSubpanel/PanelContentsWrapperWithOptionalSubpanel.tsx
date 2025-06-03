@@ -45,7 +45,7 @@ export const PanelContentsWrapperWithOptionalSubpanel = ({
           style={widthStylesOverride}
         >
           <ButtonXTopRight
-            onPress={closeSubpanel}
+            onClick={closeSubpanel}
             aria-label="Close sub panel"
           />
           {subpanelContent}

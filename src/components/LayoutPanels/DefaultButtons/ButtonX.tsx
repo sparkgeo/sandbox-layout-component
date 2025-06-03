@@ -1,8 +1,7 @@
-import { Button, type ButtonProps } from "react-aria-components";
-
+import type { ButtonHTMLAttributes } from "react";
 import styles from "./ButtonX.module.scss";
 
-interface ButtonXProps extends ButtonProps {
+interface ButtonXProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   classNamef?: string;
 }
 
@@ -10,8 +9,8 @@ export const ButtonX = (props: ButtonXProps) => {
   const { className, ...restOfProps } = props;
 
   return (
-    <Button {...restOfProps} className={`${styles.buttonX} ${className}`}>
+    <button {...restOfProps} className={`${styles.buttonX} ${className}`}>
       x
-    </Button>
+    </button>
   );
 };
