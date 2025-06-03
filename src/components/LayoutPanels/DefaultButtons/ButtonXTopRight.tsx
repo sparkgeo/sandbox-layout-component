@@ -1,8 +1,10 @@
-import { type ButtonProps } from "react-aria-components";
+import type { ButtonHTMLAttributes } from "react";
 import { ButtonX } from "./ButtonX";
 import styles from "./ButtonXTopright.module.scss";
 
-export const ButtonXTopRight = (props: ButtonProps) => {
+export const ButtonXTopRight = (
+  props: ButtonHTMLAttributes<HTMLButtonElement>
+) => {
   // Not sure if this is a good idea for componnent lib to export this,
   // but this x/close button will posiition itself in the
   // top right of the nearest positioned ancestor.

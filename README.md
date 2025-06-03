@@ -86,13 +86,14 @@ Content for the subpanel
 
 ## Getting started - consuming the component in your own app.
 
-1. Set up a React app. For example run `yarn create vite appName --template react-ts` and follow instructions for a setting up a React app as documented [here](https://vite.dev/guide/#scaffolding-your-first-vite-project)
+1. Set up a React app. For example run `yarn create vite appName --template react-ts` and follow instructions for setting up a React app as documented [here](https://vite.dev/guide/#scaffolding-your-first-vite-project). The install guide assumes you are using modern React and Vite.
 
 1. Copy the `LayoutPanels` folder in `src/components` in this repo into your codebase. If you are starting from scratch with the above example, you might put this `LayoutPanels` component into your project's `src` or `src/components` folder.
 1. Add `vitest` and `@testing-library` to your project. `yarn add -D vitest @testing-library/jest-dom @testing-library/react @testing-library/user-event`. Or optionally, but less ideal, you can remove any test files copied in the previous step.
+1. Add Sass. `yarn add -D sass`.
 1. Add supporting type dependencies to your project. `yarn add -D @types/react-dom @types/react`
 1. Configure testing and other types in your typescript config file. `compilerOptions.types` should include `vitest/globals` and `@testing-library/jest-dom`
-1. Create a container you would like the layout component to fit. Typically this would be fill any remainder of the screen not taken up by a header and footer. The component will not work without a parent that has dimensions set.
+1. Ensure the container the `LayoutPanels` component renders in has width and height set. `LayoutPanels` will fit to the dimensions of its parent and will not work properly if its ancestors don't have dimensions set properly to accommodate this. Typically the aim of `LayoutPanels` would be to fill any remainder of the screen not taken up by a header and footer.
    - For convenience you can copy a `LayoutApp` folder from `src/components/` and paste it into your app. You may use this as a parent to `LayoutPanels`. It has the following optional props for header and footer content:
      - `footerContent`
      - `headerContent`
