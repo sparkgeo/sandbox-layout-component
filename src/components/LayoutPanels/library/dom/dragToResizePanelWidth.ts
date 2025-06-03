@@ -1,5 +1,7 @@
 import { convertCssWidthPropertyValueToPixels } from "./convertCssWidthPropertyToPixels";
 
+const AUTO_CLOSE_PANEL_DRAG_THRESHOLD = 25; // px
+
 export function dragToResizePanelWidth({
   closePanel = () => {},
   divRef,
@@ -23,70 +25,83 @@ export function dragToResizePanelWidth({
     throw new Error("divRef.current is not defined");
   }
 
-  const panelRectangle = divRef.current.getBoundingClientRect();
-  const previousTransition = divRef.current.style.transition;
+  const previousCssTransition = divRef.current.style.transition;
+  const currentCssMaxWidth = convertCssWidthPropertyValueToPixels({
+    element: divRef.current,
+    cssProperty: "max-width",
+  });
+  const currentCssMinWidth = convertCssWidthPropertyValueToPixels({
+    element: divRef.current,
+    cssProperty: "min-width",
+  });
 
-  const previousX =
+  const dragStartPosition =
     "touches" in event ? event.touches[0].screenX : event.screenX;
 
   divRef.current.style.transition = "none"; // remove the transition do the div width updates in real time with the mouse/touch movement
 
-  let newWidthPixels: string = `${panelRectangle.width}px`;
+  const panelRectangle = divRef.current.getBoundingClientRect();
+  let newPanelWidthPixels: string = `${panelRectangle.width}px`;
 
-  const handleMove = (moveEvent: MouseEvent | TouchEvent) => {
-    const currentX =
+  const handleDragMove = (moveEvent: MouseEvent | TouchEvent) => {
+    const currentDragPositionRelativeToScreen =
       "touches" in moveEvent ? moveEvent.touches[0].screenX : moveEvent.screenX;
 
-    const newX = previousX - currentX;
-    const newWidthRaw = isLeftEdgeResizeTarget
-      ? panelRectangle.width + newX
-      : panelRectangle.width - newX;
-    const isNewWidthNegative = newWidthRaw < 0;
+    const dragPositionChange =
+      dragStartPosition - currentDragPositionRelativeToScreen;
+    const newPanelWidth = isLeftEdgeResizeTarget
+      ? panelRectangle.width + dragPositionChange
+      : panelRectangle.width - dragPositionChange;
+    const isNewWidthNegative = newPanelWidth < 0;
     if (isNewWidthNegative) {
       return;
     }
-    const currentCssMaxWidth = convertCssWidthPropertyValueToPixels({
-      element: divRef.current!,
-      cssProperty: "max-width",
-    });
-    const currentCssMinWidth = convertCssWidthPropertyValueToPixels({
-      element: divRef.current!,
-      cssProperty: "min-width",
-    });
+    const hasDragCrossedCssMinWidthThreshold =
+      newPanelWidth < (currentCssMinWidth ?? 10);
+    const hasDragCrossedCssMaxWidthThreshold =
+      newPanelWidth > (currentCssMaxWidth ?? 300);
+    const hasDragCrossedAutoCloseThreshold =
+      newPanelWidth < AUTO_CLOSE_PANEL_DRAG_THRESHOLD;
 
-    const isNewWidthSmallerThanMinWidth =
-      newWidthRaw < (currentCssMinWidth ?? 10);
-    const isNewWidthBiggerThanMaxWidth =
-      newWidthRaw > (currentCssMaxWidth ?? 300);
-
-    if (isNewWidthSmallerThanMinWidth || newWidthRaw < 10) {
-      // we hedge against min-width being less than 10px
-      // to leave a slice of panel width for when the panel
-      // gets opened again.
-      handleEnd();
+    if (hasDragCrossedAutoCloseThreshold) {
+      handleDragEnd();
       closePanel();
+
       return;
     }
-    if (isNewWidthBiggerThanMaxWidth) {
+
+    if (hasDragCrossedCssMinWidthThreshold) {
+      // no need to continue on to update element width, as it is already at min width.
+      return;
+    }
+
+    if (hasDragCrossedCssMaxWidthThreshold) {
       // no need to continue on to update element width, as it is already at max width.
       return;
     }
 
-    newWidthPixels = `${newWidthRaw}px`;
-    divRef.current!.style.width = newWidthPixels;
+    newPanelWidthPixels = `${newPanelWidth}px`;
+    divRef.current!.style.width = newPanelWidthPixels;
   };
 
-  const handleEnd = () => {
-    window.removeEventListener("mousemove", handleMove);
-    window.removeEventListener("touchmove", handleMove);
-    window.removeEventListener("mouseup", handleEnd);
-    window.removeEventListener("touchend", handleEnd);
-    divRef.current!.style.transition = previousTransition;
-    onMoveEnd(newWidthPixels);
+  const removeEventListeners = () => {
+    window.removeEventListener("mousemove", handleDragMove);
+    window.removeEventListener("touchmove", handleDragMove);
+    window.removeEventListener("mouseup", handleDragEnd);
+    window.removeEventListener("touchend", handleDragEnd);
+  };
+  const resetStyleTransition = () => {
+    divRef.current!.style.transition = previousCssTransition;
   };
 
-  window.addEventListener("mousemove", handleMove);
-  window.addEventListener("touchmove", handleMove);
-  window.addEventListener("mouseup", handleEnd);
-  window.addEventListener("touchend", handleEnd);
+  const handleDragEnd = () => {
+    removeEventListeners();
+    resetStyleTransition();
+    onMoveEnd(newPanelWidthPixels);
+  };
+
+  window.addEventListener("mousemove", handleDragMove);
+  window.addEventListener("touchmove", handleDragMove);
+  window.addEventListener("mouseup", handleDragEnd);
+  window.addEventListener("touchend", handleDragEnd);
 }
