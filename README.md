@@ -1,4 +1,4 @@
-# Scrappy very WIP layout component
+# LayoutPanels (WIP)
 
 ## Description
 
