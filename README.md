@@ -86,7 +86,7 @@ Content for the subpanel
 
 ## Getting started - consuming the component in your own app.
 
-1. Set up a React app. For example run `yarn create vite appName --template react-ts` and follow instructions for a setting up a React app as documented [here](https://vite.dev/guide/#scaffolding-your-first-vite-project). The install guide assumes you are using modern React and Vite.
+1. Set up a React app. For example run `yarn create vite appName --template react-ts` and follow instructions for setting up a React app as documented [here](https://vite.dev/guide/#scaffolding-your-first-vite-project). The install guide assumes you are using modern React and Vite.
 
 1. Copy the `LayoutPanels` folder in `src/components` in this repo into your codebase. If you are starting from scratch with the above example, you might put this `LayoutPanels` component into your project's `src` or `src/components` folder.
 1. Add `vitest` and `@testing-library` to your project. `yarn add -D vitest @testing-library/jest-dom @testing-library/react @testing-library/user-event`. Or optionally, but less ideal, you can remove any test files copied in the previous step.
