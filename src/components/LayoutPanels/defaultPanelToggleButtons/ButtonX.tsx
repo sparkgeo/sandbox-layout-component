@@ -1,8 +1,9 @@
 import type { ButtonHTMLAttributes } from "react";
+
 import styles from "./ButtonX.module.scss";
 
 interface ButtonXProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  classNamef?: string;
+  className?: string;
 }
 
 export const ButtonX = (props: ButtonXProps) => {

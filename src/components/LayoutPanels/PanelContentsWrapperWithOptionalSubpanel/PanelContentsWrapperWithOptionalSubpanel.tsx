@@ -1,6 +1,7 @@
 import { type ReactNode, useEffect } from "react";
 
-import { ButtonXTopRight } from "../DefaultButtons/ButtonXTopRight";
+import { ButtonXTopRight } from "../defaultPanelToggleButtons/ButtonXTopRight";
+
 import panelContentsWrapperStyles from "./PanelContentsWrapperWithOptionalSubpanel.module.scss";
 
 export const PanelContentsWrapperWithOptionalSubpanel = ({
@@ -39,9 +40,7 @@ export const PanelContentsWrapperWithOptionalSubpanel = ({
     <div className={panelContentsWrapperStyles.subpanelPositionedParent}>
       {isSubpanelOpen ? (
         <div
-          className={`${panelContentsWrapperStyles.subpanelWrapper} ${
-            subpanelClassName ?? ""
-          }`}
+          className={`${panelContentsWrapperStyles.subpanelWrapper} ${subpanelClassName ?? ""}`}
           style={widthStylesOverride}
         >
           <ButtonXTopRight

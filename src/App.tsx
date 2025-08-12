@@ -54,18 +54,7 @@ function App() {
         isSubpanelOpen={isSubpanelOpen}
         setIsSubpanelOpen={setIsSubpanelOpen}
       >
-        <Map
-          mapContainer={mapContainer}
-          legend={<div style={{ backgroundColor: "white" }}> legend</div>}
-          additionalControls={
-            <>
-              <button>custom</button>
-              <button>map</button>
-              <button>control</button>
-              <button>container</button>
-            </>
-          }
-        />
+        <Map mapContainer={mapContainer} />
       </LayoutPanels>
     </LayoutApp>
   );

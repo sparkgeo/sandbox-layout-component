@@ -1,10 +1,33 @@
 import type { Dispatch, ReactElement, ReactNode, SetStateAction } from "react";
-import { cloneElement, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  cloneElement,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+
 import layoutPanelStyles from "./LayoutPanels.module.scss";
 import { dragToResizePanelWidth } from "./library/dom/dragToResizePanelWidth";
 import { PanelContentsWrapperWithOptionalSubpanel } from "./PanelContentsWrapperWithOptionalSubpanel/PanelContentsWrapperWithOptionalSubpanel";
 
 export interface LayoutPanelsProps {
+  centerPanelSlotBottomCenter?: ReactNode;
+  centerPanelSlotBottomCenterClassName?: string;
+  centerPanelSlotBottomLeft?: ReactNode;
+  centerPanelSlotBottomLeftClassName?: string;
+  centerPanelSlotBottomRight?: ReactNode;
+  centerPanelSlotBottomRightClassName?: string;
+  centerPanelSlotCenterLeft?: ReactNode;
+  centerPanelSlotCenterLeftClassName?: string;
+  centerPanelSlotCenterRight?: ReactNode;
+  centerPanelSlotCenterRightClassName?: string;
+  centerPanelSlotTopCenter?: ReactNode;
+  centerPanelSlotTopCenterClassName?: string;
+  centerPanelSlotTopLeft?: ReactNode;
+  centerPanelSlotTopLeftClassName?: string;
+  centerPanelSlotTopRight?: ReactNode;
+  centerPanelSlotTopRightClassName?: string;
   children: ReactNode;
   isLeftPanelOpen?: boolean;
   isLeftPanelResizable?: boolean;
@@ -15,10 +38,14 @@ export interface LayoutPanelsProps {
   isSubpanelOpen?: boolean;
   leftPanelClassName?: string;
   leftPanelContent?: ReactNode;
-  leftPanelToggleButton?: ReactElement;
+  leftPanelToggleButton?: ReactElement<React.HTMLAttributes<HTMLButtonElement>>;
+  leftPanelToggleButtonContainerClassName?: string;
   rightPanelClassName?: string;
   rightPanelContent?: ReactNode;
-  rightPanelToggleButton?: ReactElement;
+  rightPanelToggleButton?: ReactElement<
+    React.HTMLAttributes<HTMLButtonElement>
+  >;
+  rightPanelToggleButtonContainerClassName?: string;
   setIsLeftPanelOpen?: Dispatch<SetStateAction<boolean>>;
   setIsRightPanelOpen?: Dispatch<SetStateAction<boolean>>;
   setIsSubpanelOpen?: Dispatch<SetStateAction<boolean>>;
@@ -27,6 +54,22 @@ export interface LayoutPanelsProps {
 }
 
 export const LayoutPanels = ({
+  centerPanelSlotBottomCenter = undefined,
+  centerPanelSlotBottomCenterClassName = undefined,
+  centerPanelSlotBottomLeft = undefined,
+  centerPanelSlotBottomLeftClassName = undefined,
+  centerPanelSlotBottomRight = undefined,
+  centerPanelSlotBottomRightClassName = undefined,
+  centerPanelSlotCenterLeft = undefined,
+  centerPanelSlotCenterLeftClassName = undefined,
+  centerPanelSlotCenterRight = undefined,
+  centerPanelSlotCenterRightClassName = undefined,
+  centerPanelSlotTopCenter = undefined,
+  centerPanelSlotTopCenterClassName = undefined,
+  centerPanelSlotTopLeft = undefined,
+  centerPanelSlotTopLeftClassName = undefined,
+  centerPanelSlotTopRight = undefined,
+  centerPanelSlotTopRightClassName = undefined,
   children,
   isLeftPanelOpen = undefined,
   isLeftPanelResizable = false,
@@ -38,9 +81,11 @@ export const LayoutPanels = ({
   leftPanelClassName = undefined,
   leftPanelContent = undefined,
   leftPanelToggleButton = undefined,
+  leftPanelToggleButtonContainerClassName = undefined,
   rightPanelClassName = undefined,
   rightPanelContent = undefined,
   rightPanelToggleButton = undefined,
+  rightPanelToggleButtonContainerClassName = undefined,
   setIsLeftPanelOpen = undefined,
   setIsRightPanelOpen = undefined,
   setIsSubpanelOpen = undefined,
@@ -192,7 +237,9 @@ export const LayoutPanels = ({
       data-testid="leftPanel"
     >
       {isLeftPanelToggleable ? (
-        <div className={layoutPanelStyles.leftPanelCloseTab}>
+        <div
+          className={`${layoutPanelStyles.leftPanelCloseTab} ${leftPanelToggleButtonContainerClassName ?? ""}`}
+        >
           {leftPanelButtonToUse}
         </div>
       ) : null}
@@ -223,7 +270,66 @@ export const LayoutPanels = ({
   return (
     <div className={layoutPanelStyles.layoutPanelsWrapper}>
       {leftPanelContent ? configuredLeftPanel : null}
-      <div className={layoutPanelStyles.centerSection}>{children}</div>
+      <div className={layoutPanelStyles.centerPanelWrapper}>
+        {centerPanelSlotTopLeft && (
+          <div
+            className={`${layoutPanelStyles.centerPanelSlotTopLeft} ${centerPanelSlotTopLeftClassName ?? ""}`}
+          >
+            {centerPanelSlotTopLeft}
+          </div>
+        )}
+        {centerPanelSlotTopCenter && (
+          <div
+            className={`${layoutPanelStyles.centerPanelSlotTopCenter} ${centerPanelSlotTopCenterClassName ?? ""}`}
+          >
+            {centerPanelSlotTopCenter}
+          </div>
+        )}
+        {centerPanelSlotTopRight && (
+          <div
+            className={`${layoutPanelStyles.centerPanelSlotTopRight} ${centerPanelSlotTopRightClassName ?? ""}`}
+          >
+            {centerPanelSlotTopRight}
+          </div>
+        )}
+        {centerPanelSlotCenterRight && (
+          <div
+            className={`${layoutPanelStyles.centerPanelSlotCenterRight} ${centerPanelSlotCenterRightClassName ?? ""}`}
+          >
+            {centerPanelSlotCenterRight}
+          </div>
+        )}
+        {centerPanelSlotBottomLeft && (
+          <div
+            className={`${layoutPanelStyles.centerPanelSlotBottomLeft} ${centerPanelSlotBottomLeftClassName ?? ""}`}
+          >
+            {centerPanelSlotBottomLeft}
+          </div>
+        )}
+        {centerPanelSlotBottomCenter && (
+          <div
+            className={`${layoutPanelStyles.centerPanelSlotBottomCenter} ${centerPanelSlotBottomCenterClassName ?? ""}`}
+          >
+            {centerPanelSlotBottomCenter}
+          </div>
+        )}
+        {centerPanelSlotBottomRight && (
+          <div
+            className={`${layoutPanelStyles.centerPanelSlotBottomRight} ${centerPanelSlotBottomRightClassName ?? ""}`}
+          >
+            {centerPanelSlotBottomRight}
+          </div>
+        )}
+        {centerPanelSlotCenterLeft && (
+          <div
+            className={`${layoutPanelStyles.centerPanelSlotCenterLeft} ${centerPanelSlotCenterLeftClassName ?? ""}`}
+          >
+            {centerPanelSlotCenterLeft}
+          </div>
+        )}
+
+        <div className={layoutPanelStyles.centerPanel}>{children}</div>
+      </div>
 
       {rightPanelContent ? (
         <div
@@ -234,7 +340,9 @@ export const LayoutPanels = ({
           data-testid="rightPanel"
         >
           {isRightPanelToggleable ? (
-            <div className={layoutPanelStyles.rightPanelCloseTab}>
+            <div
+              className={`${layoutPanelStyles.rightPanelCloseTab} ${rightPanelToggleButtonContainerClassName ?? ""}`}
+            >
               {rightPanelButtonToUse}
             </div>
           ) : null}
