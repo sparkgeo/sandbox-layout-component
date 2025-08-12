@@ -1,7 +1,8 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
-import { LayoutPanels } from "./LayoutPanels";
 import { useState } from "react";
+import { describe, it, expect } from "vitest";
+
+import { LayoutPanels } from "./LayoutPanels";
 
 describe("Layout Panels default", async () => {
   it("shows the expected content defaulting to panels visible. Panels close and open when panel toggle button clicked.", async () => {

@@ -1,3 +1,10 @@
+@use "./layoutPanelsVariables" as *;
+
+@mixin centerPanelSlot {
+  position: absolute;
+  z-index: $zIndexOnTopOfMap;
+}
+
 @mixin panelResizerTarget {
   all: unset;
   width: 5px;
@@ -9,19 +16,66 @@
   -webkit-touch-callout: none; // prevents a long press from doing anything
 }
 
+.centerPanelSlotTopLeft {
+  @include centerPanelSlot;
+  top: $mapElementMargin;
+  left: $mapElementMargin;
+}
+.centerPanelSlotTopCenter {
+  @include centerPanelSlot;
+  top: $mapElementMargin;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.centerPanelSlotTopRight {
+  @include centerPanelSlot;
+  top: $mapElementMargin;
+  right: $mapElementMargin;
+}
+.centerPanelSlotCenterRight {
+  @include centerPanelSlot;
+  top: 50%;
+  right: $mapElementMargin;
+  transform: translateY(-50%);
+}
+.centerPanelSlotBottomLeft {
+  @include centerPanelSlot;
+  bottom: $mapElementMargin;
+  left: $mapElementMargin;
+}
+.centerPanelSlotBottomCenter {
+  @include centerPanelSlot;
+  bottom: $mapElementMargin;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.centerPanelSlotBottomRight {
+  @include centerPanelSlot;
+  bottom: $mapElementMargin;
+  right: $mapElementMargin;
+}
+.centerPanelSlotCenterLeft {
+  @include centerPanelSlot;
+  top: 50%;
+  left: $mapElementMargin;
+  transform: translateY(-50%);
+}
 .layoutPanelsWrapper {
   height: 100%;
   display: flex;
   justify-content: space-between;
 }
-.centerSection {
+.centerPanelWrapper {
   flex-grow: 1;
+  position: relative;
+}
+.centerPanel {
+  height: 100%;
 }
 .panel {
   transition: margin 0.5s ease-in-out;
   box-sizing: border-box;
   position: relative;
-  border: dashed thin green;
   width: 300px; // this may be overriden in JavaScript when the user drags to resize a panel
   min-width: 200px;
   max-width: 500px;
@@ -33,7 +87,7 @@
 
 .panelCloseButton {
   all: unset;
-  background-color: var(--spk-button-background-color-secondary, #666);
+  background-color: orange;
   width: 20px;
   cursor: pointer;
 }
@@ -41,14 +95,14 @@
   position: absolute;
   right: -20px;
   top: 10px;
-  z-index: 1; // ensures stacked on top of map (tested with maplibre)
+  z-index: $zIndexOnTopOfMap;
   border: solid thin orange;
 }
 .rightPanelCloseTab {
   position: absolute;
   left: -20px;
   top: 10px;
-  z-index: 1; // ensures stacked on top of map (tested with maplibre)
+  z-index: $zIndexOnTopOfMap;
   border: solid thin orange;
 }
 

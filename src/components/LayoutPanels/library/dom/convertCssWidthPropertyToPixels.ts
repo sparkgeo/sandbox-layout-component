@@ -5,7 +5,9 @@ const getCssWidthUnitStartIndex = (cssValue: string) =>
 
 const isValidCssValue = (cssValue: string) => {
   const unitStartIndex = getCssWidthUnitStartIndex(cssValue); // Find the first non-numeric character
-  if (unitStartIndex === -1) return false; // No unit found
+  if (unitStartIndex === -1) {
+    return false;
+  } // No unit found
   const numberPart = cssValue.slice(0, unitStartIndex).trim();
   const unitPart = cssValue.slice(unitStartIndex).trim();
   return !isNaN(parseFloat(numberPart)) && unitPart.length > 0;

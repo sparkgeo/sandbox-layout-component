@@ -10,7 +10,7 @@ export function dragToResizePanelWidth({
   onMoveEnd = () => {},
 }: {
   closePanel: () => void;
-  divRef: React.RefObject<HTMLDivElement>;
+  divRef: React.RefObject<HTMLDivElement | null>;
   event: React.MouseEvent | React.TouchEvent;
   isLeftEdgeResizeTarget?: boolean;
   onMoveEnd?: (newWidth: string) => void;
@@ -41,7 +41,7 @@ export function dragToResizePanelWidth({
   divRef.current.style.transition = "none"; // remove the transition do the div width updates in real time with the mouse/touch movement
 
   const panelRectangle = divRef.current.getBoundingClientRect();
-  let newPanelWidthPixels: string = `${panelRectangle.width}px`;
+  let newPanelWidthPixels = `${panelRectangle.width}px`;
 
   const handleDragMove = (moveEvent: MouseEvent | TouchEvent) => {
     const currentDragPositionRelativeToScreen =
@@ -81,7 +81,9 @@ export function dragToResizePanelWidth({
     }
 
     newPanelWidthPixels = `${newPanelWidth}px`;
-    divRef.current!.style.width = newPanelWidthPixels;
+    if (divRef.current) {
+      divRef.current.style.width = newPanelWidthPixels;
+    }
   };
 
   const removeEventListeners = () => {
@@ -91,7 +93,9 @@ export function dragToResizePanelWidth({
     window.removeEventListener("touchend", handleDragEnd);
   };
   const resetStyleTransition = () => {
-    divRef.current!.style.transition = previousCssTransition;
+    if (divRef.current) {
+      divRef.current.style.transition = previousCssTransition;
+    }
   };
 
   const handleDragEnd = () => {

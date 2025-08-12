@@ -1,3 +1,5 @@
+@use "../layoutPanelsVariables" as *;
+
 .subpanelPositionedParent {
   height: 100%;
   position: relative; // to support absolute positioning of subpanel
@@ -10,6 +12,6 @@
   right: 0;
   background: white;
   box-sizing: border-box;
-  z-index: 1; // ensures stacked on top of map (tested with maplibre)
-  transform: translateX(calc(100% + var(--spk-spacing-5, 24px)));
+  z-index: $zIndexOnTopOfMap;
+  transform: translateX(calc(100% + 12px));
 }
