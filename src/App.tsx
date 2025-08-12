@@ -1,7 +1,7 @@
+import { useState } from "react";
+
 import { LayoutApp } from "./components/LayoutApp/LayoutApp";
 import { LayoutPanels } from "./components/LayoutPanels/LayoutPanels";
-
-import { useState } from "react";
 import { Map } from "./components/Map/Map";
 import { useInitializeMap } from "./components/Map/useInitializeMap";
 

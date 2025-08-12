@@ -1,4 +1,5 @@
 import { type ReactNode } from "react";
+
 import appLayoutStyles from "./LayoutApp.module.scss";
 
 export interface LayoutAppProps {

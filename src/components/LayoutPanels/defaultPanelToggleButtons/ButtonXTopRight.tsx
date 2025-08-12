@@ -13,12 +13,63 @@ export const ButtonXTopRight = (
   // this could make dx poor for external consumption/
   // better to export just the unpositioned x/close button and let the
   // consuming app handle positioning perhaps.
-  const { className, ...restOfProps } = props;
+  const {
+    "aria-controls": ariaControls,
+    "aria-expanded": ariaExpanded,
+    "aria-label": ariaLabel,
+    "aria-pressed": ariaPressed,
+    className,
+    disabled,
+    form,
+    formAction,
+    formEncType,
+    formMethod,
+    formNoValidate,
+    formTarget,
+    id,
+    name,
+    onBlur,
+    onClick,
+    onDoubleClick,
+    onFocus,
+    onMouseDown,
+    onMouseEnter,
+    onMouseLeave,
+    onMouseUp,
+    tabIndex,
+    title,
+    type,
+    value,
+  } = props;
 
   return (
     <ButtonX
-      {...restOfProps}
-      className={`${styles.buttonXTopRight} ${className}`}
+      aria-controls={ariaControls}
+      aria-expanded={ariaExpanded}
+      aria-label={ariaLabel}
+      aria-pressed={ariaPressed}
+      className={`${styles.buttonX} ${className}`}
+      disabled={disabled}
+      form={form}
+      formAction={formAction}
+      formEncType={formEncType}
+      formMethod={formMethod}
+      formNoValidate={formNoValidate}
+      formTarget={formTarget}
+      id={id}
+      name={name}
+      onBlur={onBlur}
+      onClick={onClick}
+      onDoubleClick={onDoubleClick}
+      onFocus={onFocus}
+      onMouseDown={onMouseDown}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onMouseUp={onMouseUp}
+      tabIndex={tabIndex}
+      title={title}
+      type={type}
+      value={value}
     />
   );
 };

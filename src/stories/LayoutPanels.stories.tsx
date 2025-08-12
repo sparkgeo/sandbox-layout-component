@@ -1,7 +1,9 @@
-import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { LayoutPanels } from "../components/LayoutPanels/LayoutPanels";
+import { useState } from "react";
+
 import { LayoutApp } from "../components/LayoutApp/LayoutApp";
+import { LayoutPanels } from "../components/LayoutPanels/LayoutPanels";
+
 import storyStyles from "./LayoutPanel.stories.module.scss";
 
 const meta: Meta<typeof LayoutPanels> = {
@@ -36,7 +38,11 @@ const MainContent = () => (
   </div>
 );
 
-const SubpanelDemo = (props: {
+const SubpanelDemo = ({
+  leftPanelClassName,
+  rightPanelClassName,
+  subpanelClassName,
+}: {
   leftPanelClassName?: string;
   rightPanelClassName?: string;
   subpanelClassName?: string;
@@ -68,7 +74,9 @@ const SubpanelDemo = (props: {
       setIsLeftPanelOpen={setIsLeftPanelOpen}
       isSubpanelOpen={isSubpanelOpen}
       setIsSubpanelOpen={setIsSubpanelOpen}
-      {...props}
+      leftPanelClassName={leftPanelClassName}
+      rightPanelClassName={rightPanelClassName}
+      subpanelClassName={subpanelClassName}
     >
       {<MainContent />}
     </LayoutPanels>
