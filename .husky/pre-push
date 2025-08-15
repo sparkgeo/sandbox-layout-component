@@ -1,1 +1,1 @@
-yarn run lint && yarn run test run
+yarn run lint && yarn run test && snyk test
