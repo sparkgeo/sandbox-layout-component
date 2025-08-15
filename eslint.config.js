@@ -6,7 +6,7 @@ import tseslint from "typescript-eslint";
 import prettier from "eslint-config-prettier";
 import react from "eslint-plugin-react";
 import jsxA11y from "eslint-plugin-jsx-a11y";
-
+import nounsanitized from "eslint-plugin-no-unsanitized";
 import importPlugin from "eslint-plugin-import";
 
 export default tseslint.config(
@@ -25,6 +25,7 @@ export default tseslint.config(
       importPlugin.flatConfigs.recommended,
       jsxA11y.flatConfigs.recommended,
       prettier,
+      nounsanitized.configs.recommended, // security
     ],
     files: ["**/*.{ts,tsx}"],
     languageOptions: {
@@ -45,11 +46,6 @@ export default tseslint.config(
       "no-console": "error",
       "react-hooks/exhaustive-deps": "error",
       "@typescript-eslint/consistent-type-imports": "error",
-      "react/no-danger": "warn",
-      "react/no-find-dom-node": "warn",
-      "react/jsx-no-script-url": "warn",
-      "react/jsx-no-target-blank": "warn",
-      "react/jsx-props-no-spreading": "error", // for security reasons
       "import/order": [
         "error",
         {
@@ -57,6 +53,11 @@ export default tseslint.config(
           alphabetize: { order: "asc", caseInsensitive: true },
         },
       ],
+      "react/no-danger": "error", // security
+      "react/no-find-dom-node": "error", // security
+      "react/jsx-no-script-url": "error", // security
+      "react/jsx-no-target-blank": "error", // security
+      "react/jsx-props-no-spreading": "error", // security
     },
   }
 );
