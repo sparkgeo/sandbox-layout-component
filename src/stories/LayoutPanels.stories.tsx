@@ -189,3 +189,42 @@ const CustomToggleButtonsDemo = () => {
 export const WithCustomToggleButtons: Story = {
   render: () => <CustomToggleButtonsDemo />,
 };
+
+const BottomPanelDemo = () => {
+  const [isBottomPanelOpen, setIsBottomPanelOpen] = useState(true);
+
+  return (
+    <LayoutApp>
+      <LayoutPanels
+        leftPanelContent={<LeftPanelContent />}
+        rightPanelContent={<RightPanelContent />}
+        isLeftPanelResizable={true}
+        isRightPanelResizable={true}
+        bottomPanel={
+          <div
+            style={{
+              backgroundColor: "greenyellow",
+              height: "100%",
+              border: "solid thin magenta",
+            }}
+          >
+            bottom panel
+          </div>
+        }
+        isBottomPanelOpen={isBottomPanelOpen}
+      >
+        <div
+          style={{ backgroundColor: "coral", height: "100%", padding: "100px" }}
+        >
+          <button onClick={() => setIsBottomPanelOpen((previous) => !previous)}>
+            Toggle is bottom panel open
+          </button>
+        </div>
+      </LayoutPanels>
+    </LayoutApp>
+  );
+};
+
+export const BottomPanel: Story = {
+  render: () => <BottomPanelDemo />,
+};

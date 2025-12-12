@@ -11,7 +11,10 @@ import layoutPanelStyles from "./LayoutPanels.module.scss";
 import { dragToResizePanelWidth } from "./library/dom/dragToResizePanelWidth";
 import { PanelContentsWrapperWithOptionalSubpanel } from "./PanelContentsWrapperWithOptionalSubpanel/PanelContentsWrapperWithOptionalSubpanel";
 
+const BOTTOM_PANEL_HEIGHT = "376px";
 export interface LayoutPanelsProps {
+  bottomPanel?: ReactNode;
+  bottomPanelClassName?: string;
   centerPanelSlotBottomCenter?: ReactNode;
   centerPanelSlotBottomCenterClassName?: string;
   centerPanelSlotBottomLeft?: ReactNode;
@@ -29,6 +32,7 @@ export interface LayoutPanelsProps {
   centerPanelSlotTopRight?: ReactNode;
   centerPanelSlotTopRightClassName?: string;
   children: ReactNode;
+  isBottomPanelOpen?: boolean;
   isLeftPanelOpen?: boolean;
   isLeftPanelResizable?: boolean;
   isLeftPanelToggleable?: boolean;
@@ -54,6 +58,8 @@ export interface LayoutPanelsProps {
 }
 
 export const LayoutPanels = ({
+  bottomPanel = undefined,
+  bottomPanelClassName = undefined,
   centerPanelSlotBottomCenter = undefined,
   centerPanelSlotBottomCenterClassName = undefined,
   centerPanelSlotBottomLeft = undefined,
@@ -71,6 +77,7 @@ export const LayoutPanels = ({
   centerPanelSlotTopRight = undefined,
   centerPanelSlotTopRightClassName = undefined,
   children,
+  isBottomPanelOpen,
   isLeftPanelOpen = undefined,
   isLeftPanelResizable = false,
   isLeftPanelToggleable = true,
@@ -132,6 +139,10 @@ export const LayoutPanels = ({
   const rightPanelDynamicStyles = {
     width: rightPanelResizableWidth,
     marginRight: isRightPanelOpenToUse ? "0px" : `-${rightPanelResizableWidth}`,
+  };
+  const bottomPanelDynamicStyles = {
+    marginBottom: isBottomPanelOpen ? "0px" : `-${BOTTOM_PANEL_HEIGHT}`,
+    height: BOTTOM_PANEL_HEIGHT,
   };
 
   useEffect(function initializeResizableWidths() {
@@ -328,7 +339,17 @@ export const LayoutPanels = ({
           </div>
         )}
 
-        <div className={layoutPanelStyles.centerPanel}>{children}</div>
+        <div className={layoutPanelStyles.bottomCenterPanelsWrapper}>
+          <div className={layoutPanelStyles.centerPanel}>{children}</div>
+          {bottomPanel && (
+            <div
+              className={`${layoutPanelStyles.bottomPanel} ${bottomPanelClassName ?? ""}`}
+              style={bottomPanelDynamicStyles}
+            >
+              {bottomPanel}
+            </div>
+          )}
+        </div>
       </div>
 
       {rightPanelContent ? (
