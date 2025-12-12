@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { useState } from "react";
+import { type DetailedHTMLProps, type HTMLAttributes, useState } from "react";
 
 import { LayoutApp } from "../components/LayoutApp/LayoutApp";
 import { LayoutPanels } from "../components/LayoutPanels/LayoutPanels";
@@ -192,6 +192,17 @@ export const WithCustomToggleButtons: Story = {
 
 const BottomPanelDemo = () => {
   const [isBottomPanelOpen, setIsBottomPanelOpen] = useState(true);
+  const bottomPanelContentStyle = {
+    height: "100%",
+    border: "dashed thick coral",
+    boxSizing: "border-box",
+  } as DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
+  const mainPanelContentStyle = {
+    height: "100%",
+    padding: "20px",
+    border: "solid thick greenyellow",
+    boxSizing: "border-box",
+  } as DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
 
   return (
     <LayoutApp>
@@ -200,22 +211,10 @@ const BottomPanelDemo = () => {
         rightPanelContent={<RightPanelContent />}
         isLeftPanelResizable={true}
         isRightPanelResizable={true}
-        bottomPanel={
-          <div
-            style={{
-              backgroundColor: "greenyellow",
-              height: "100%",
-              border: "solid thin magenta",
-            }}
-          >
-            bottom panel
-          </div>
-        }
+        bottomPanel={<div style={bottomPanelContentStyle}>bottom panel</div>}
         isBottomPanelOpen={isBottomPanelOpen}
       >
-        <div
-          style={{ backgroundColor: "coral", height: "100%", padding: "100px" }}
-        >
+        <div style={mainPanelContentStyle}>
           <button onClick={() => setIsBottomPanelOpen((previous) => !previous)}>
             Toggle is bottom panel open
           </button>

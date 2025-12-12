@@ -77,7 +77,7 @@ export const LayoutPanels = ({
   centerPanelSlotTopRight = undefined,
   centerPanelSlotTopRightClassName = undefined,
   children,
-  isBottomPanelOpen,
+  isBottomPanelOpen = undefined,
   isLeftPanelOpen = undefined,
   isLeftPanelResizable = false,
   isLeftPanelToggleable = true,

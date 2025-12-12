@@ -82,7 +82,7 @@
   }
 }
 .centerPanel {
-  height: 100%;
+  flex-grow: 1;
 }
 .panel {
   transition: margin 0.5s ease-in-out;
