@@ -69,8 +69,20 @@
   flex-grow: 1;
   position: relative;
 }
-.centerPanel {
+.bottomCenterPanelsWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   height: 100%;
+}
+.bottomPanel {
+  transition: margin 0.5s ease-in-out;
+  @media (prefers-reduced-motion) {
+    transition: none;
+  }
+}
+.centerPanel {
+  flex-grow: 1;
 }
 .panel {
   transition: margin 0.5s ease-in-out;
