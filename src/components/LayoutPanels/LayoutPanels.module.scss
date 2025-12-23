@@ -92,7 +92,9 @@
   position: relative;
 }
 .bottomPanel {
-  transition: margin 0.5s ease-in-out;
+  transition:
+    margin 0.5s ease-in-out,
+    height 0.5s ease-in-out;
   box-sizing: border-box;
   position: relative;
   min-height: 100px;
@@ -143,7 +145,7 @@
 }
 .bottomPanelCloseTab {
   position: absolute;
-  bottom: 10px;
+  top: -20px;
   left: 50%;
   transform: translateX(-50%);
   z-index: $zIndexOnTopOfMap;

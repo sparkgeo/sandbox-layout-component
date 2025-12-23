@@ -13,6 +13,7 @@ import { dragToResizePanelWidth } from "./library/dom/dragToResizePanelWidth";
 import { PanelContentsWrapperWithOptionalSubpanel } from "./PanelContentsWrapperWithOptionalSubpanel/PanelContentsWrapperWithOptionalSubpanel";
 
 const BOTTOM_PANEL_HEIGHT = "376px";
+const MAX_BOTTOM_PANEL_NEGATIVE_MARGIN = "100px"; // Maximum negative margin to keep arrow visible
 export interface LayoutPanelsProps {
   bottomPanel?: ReactNode;
   bottomPanelClassName?: string;
@@ -163,12 +164,28 @@ export const LayoutPanels = ({
     width: rightPanelResizableWidth,
     marginRight: isRightPanelOpenToUse ? "0px" : `-${rightPanelResizableWidth}`,
   };
-  const bottomPanelDynamicStyles = {
-    height: bottomPanelResizableHeight ?? BOTTOM_PANEL_HEIGHT,
-    marginBottom: isBottomPanelOpenToUse
-      ? "0px"
-      : `-${bottomPanelResizableHeight ?? BOTTOM_PANEL_HEIGHT}`,
-  };
+  const bottomPanelDynamicStyles = useMemo(() => {
+    if (isBottomPanelOpenToUse) {
+      return {
+        height: bottomPanelResizableHeight ?? BOTTOM_PANEL_HEIGHT,
+        marginBottom: "0px",
+      };
+    }
+
+    // When closed, limit the negative margin to keep the arrow visible
+    // Set height to match the clamped margin for smooth transition
+    const panelHeight = bottomPanelResizableHeight ?? BOTTOM_PANEL_HEIGHT;
+    const panelHeightPx = parseFloat(panelHeight.replace("px", ""));
+    const maxNegativeMarginPx = parseFloat(
+      MAX_BOTTOM_PANEL_NEGATIVE_MARGIN.replace("px", "")
+    );
+    const clampedNegativeMargin = Math.min(panelHeightPx, maxNegativeMarginPx);
+
+    return {
+      height: `${clampedNegativeMargin}px`,
+      marginBottom: `-${clampedNegativeMargin}px`,
+    };
+  }, [isBottomPanelOpenToUse, bottomPanelResizableHeight]);
 
   useEffect(function initializeResizableWidths() {
     setLeftPanelResizableWidth(`${leftPanelRef.current?.offsetWidth}px`);
@@ -251,6 +268,10 @@ export const LayoutPanels = ({
       }
       if (isBottomPanelOpenToUse) {
         setIsBottomPanelContentShowing(true);
+
+        if (bottomPanelRef.current) {
+          bottomPanelRef.current.style.removeProperty("height");
+        }
       }
     },
     [isLeftPanelOpenToUse, isRightPanelOpenToUse, isBottomPanelOpenToUse]
@@ -412,14 +433,6 @@ export const LayoutPanels = ({
             {centerPanelSlotCenterLeft}
           </div>
         )}
-        {bottomPanel && isBottomPanelToggleable ? (
-          <div
-            className={`${layoutPanelStyles.bottomPanelCloseTab} ${bottomPanelToggleButtonContainerClassName ?? ""}`}
-          >
-            {bottomPanelButtonToUse}
-          </div>
-        ) : null}
-
         <div className={layoutPanelStyles.bottomCenterPanelsWrapper}>
           <div className={layoutPanelStyles.centerPanel}>{children}</div>
           {bottomPanel && (
@@ -430,6 +443,13 @@ export const LayoutPanels = ({
               onTransitionEnd={handleBottomPanelTransitionEnd}
               data-testid="bottomPanel"
             >
+              {isBottomPanelToggleable ? (
+                <div
+                  className={`${layoutPanelStyles.bottomPanelCloseTab} ${bottomPanelToggleButtonContainerClassName ?? ""}`}
+                >
+                  {bottomPanelButtonToUse}
+                </div>
+              ) : null}
               {isBottomPanelContentShowing ? bottomPanel : null}
               {isBottomPanelResizable ? (
                 <button
