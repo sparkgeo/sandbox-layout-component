@@ -46,5 +46,9 @@ export const restoreTransition = (
   element: HTMLElement,
   previousTransition: string
 ): void => {
-  element.style.transition = previousTransition || "";
+  if (previousTransition) {
+    element.style.transition = previousTransition;
+  } else {
+    element.style.removeProperty("transition");
+  }
 };

@@ -15,16 +15,6 @@ import { PanelContentsWrapperWithOptionalSubpanel } from "./PanelContentsWrapper
 const BOTTOM_PANEL_HEIGHT = "376px";
 const MAX_BOTTOM_PANEL_NEGATIVE_MARGIN = "100px"; // Maximum negative margin to keep arrow visible
 export interface LayoutPanelsProps {
-  bottomPanel?: ReactNode;
-  bottomPanelClassName?: string;
-  isBottomPanelOpen?: boolean;
-  isBottomPanelResizable?: boolean;
-  isBottomPanelToggleable?: boolean;
-  bottomPanelToggleButton?: ReactElement<
-    React.HTMLAttributes<HTMLButtonElement>
-  >;
-  bottomPanelToggleButtonContainerClassName?: string;
-  setIsBottomPanelOpen?: Dispatch<SetStateAction<boolean>>;
   centerPanelSlotBottomCenter?: ReactNode;
   centerPanelSlotBottomCenterClassName?: string;
   centerPanelSlotBottomLeft?: ReactNode;
@@ -42,6 +32,16 @@ export interface LayoutPanelsProps {
   centerPanelSlotTopRight?: ReactNode;
   centerPanelSlotTopRightClassName?: string;
   children: ReactNode;
+  bottomPanel?: ReactNode;
+  bottomPanelClassName?: string;
+  isBottomPanelOpen?: boolean;
+  isBottomPanelResizable?: boolean;
+  isBottomPanelToggleable?: boolean;
+  bottomPanelToggleButton?: ReactElement<
+    React.HTMLAttributes<HTMLButtonElement>
+  >;
+  bottomPanelToggleButtonContainerClassName?: string;
+  setIsBottomPanelOpen?: Dispatch<SetStateAction<boolean>>;
   isLeftPanelOpen?: boolean;
   isLeftPanelResizable?: boolean;
   isLeftPanelToggleable?: boolean;

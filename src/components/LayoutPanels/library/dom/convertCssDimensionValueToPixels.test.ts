@@ -4,7 +4,7 @@ import { convertCssDimensionValueToPixels } from "./convertCssDimensionValueToPi
 
 describe("convertCssDimensionValueToPixels", () => {
   describe("width properties", () => {
-  it("should convert 'px' value to pixels", () => {
+    it("should convert 'px' value to pixels", () => {
     const element = document.createElement("div");
     element.style.width = "100px";
 
@@ -14,9 +14,9 @@ describe("convertCssDimensionValueToPixels", () => {
     });
 
     expect(result).toBe(100);
-  });
+    });
 
-  it("should convert '%' value to pixels based on parent width", () => {
+    it("should convert '%' value to pixels based on parent width", () => {
     const parent = document.createElement("div");
     parent.style.width = "200px";
     document.body.appendChild(parent);
@@ -33,12 +33,12 @@ describe("convertCssDimensionValueToPixels", () => {
     expect(result).toBe(100);
 
     document.body.removeChild(parent);
-  });
+    });
 
-  it("should convert 'em' value to pixels based on font size", () => {
-    const element = document.createElement("div");
-    element.style.fontSize = "16px";
-    element.style.width = "2em";
+    it("should convert 'em' value to pixels based on font size", () => {
+      const element = document.createElement("div");
+      element.style.fontSize = "16px";
+      element.style.width = "2em";
 
     const result = convertCssDimensionValueToPixels({
       element,
@@ -46,9 +46,9 @@ describe("convertCssDimensionValueToPixels", () => {
     });
 
     expect(result).toBe(32);
-  });
+    });
 
-  it("should convert 'rem' value to pixels based on root font size", () => {
+    it("should convert 'rem' value to pixels based on root font size", () => {
     document.documentElement.style.fontSize = "16px";
 
     const element = document.createElement("div");
@@ -60,9 +60,9 @@ describe("convertCssDimensionValueToPixels", () => {
     });
 
     expect(result).toBe(32);
-  });
+    });
 
-  it("should convert 'vw' value to pixels based on viewport width", () => {
+    it("should convert 'vw' value to pixels based on viewport width", () => {
     Object.defineProperty(window, "innerWidth", {
       value: 1000,
       writable: true,
@@ -77,9 +77,9 @@ describe("convertCssDimensionValueToPixels", () => {
     });
 
     expect(result).toBe(100);
-  });
+    });
 
-  it("should convert 'vh' value to pixels based on viewport height", () => {
+    it("should convert 'vh' value to pixels based on viewport height", () => {
     Object.defineProperty(window, "innerHeight", {
       value: 800,
       writable: true,
@@ -96,7 +96,7 @@ describe("convertCssDimensionValueToPixels", () => {
     expect(result).toBe(80);
   });
 
-  it("should throw an error for invalid CSS property", () => {
+    it("should throw an error for invalid CSS property", () => {
     const element = document.createElement("div");
 
     expect(() =>
@@ -107,9 +107,9 @@ describe("convertCssDimensionValueToPixels", () => {
     ).toThrowError(
       'CSS property "invalid-property" is not defined or invalid.'
     );
-  });
+    });
 
-  it("should throw an error for invalid CSS value", () => {
+    it("should throw an error for invalid CSS value", () => {
     const element = document.createElement("div");
     element.style.width = "fdsfsdgtsdgs";
 
@@ -119,9 +119,9 @@ describe("convertCssDimensionValueToPixels", () => {
         cssDimensionProperty: "width",
       })
     ).toThrowError('CSS property "width" is not defined or invalid.');
-  });
+    });
 
-  it("should throw error for unsupported units", () => {
+    it("should throw error for unsupported units", () => {
     const element = document.createElement("div");
     element.style.width = "10pxn";
 
@@ -131,9 +131,9 @@ describe("convertCssDimensionValueToPixels", () => {
         cssDimensionProperty: "width",
       })
     ).toThrowError('CSS property "width" is not defined or invalid.');
-  });
+    });
 
-  it("Should throw an error for a missing unit", () => {
+    it("should throw an error for a missing unit", () => {
     const element = document.createElement("div");
     element.style.width = "10";
     expect(() =>
@@ -143,7 +143,7 @@ describe("convertCssDimensionValueToPixels", () => {
       })
     ).toThrowError('CSS property "width" is not defined or invalid.');
   });
-  it("should handle missing parent element for '%' value", () => {
+    it("should handle missing parent element for '%' value", () => {
     const element = document.createElement("div");
     element.style.width = "50%";
 
@@ -159,19 +159,19 @@ describe("convertCssDimensionValueToPixels", () => {
   });
 
   describe("height properties", () => {
-  it("should convert 'px' value to pixels", () => {
-    const element = document.createElement("div");
-    element.style.height = "150px";
+    it("should convert 'px' value to pixels", () => {
+      const element = document.createElement("div");
+      element.style.height = "150px";
 
-    const result = convertCssDimensionValueToPixels({
-      element,
-      cssDimensionProperty: "height",
+      const result = convertCssDimensionValueToPixels({
+        element,
+        cssDimensionProperty: "height",
+      });
+
+      expect(result).toBe(150);
     });
 
-    expect(result).toBe(150);
-  });
-
-  it("should convert '%' value to pixels based on parent height", () => {
+    it("should convert '%' value to pixels based on parent height", () => {
     const parent = document.createElement("div");
     parent.style.height = "300px";
     document.body.appendChild(parent);
@@ -188,11 +188,11 @@ describe("convertCssDimensionValueToPixels", () => {
     expect(result).toBe(150);
 
     document.body.removeChild(parent);
-  });
+    });
 
-  it("should convert 'em' value to pixels based on font size", () => {
-    const element = document.createElement("div");
-    element.style.fontSize = "20px";
+    it("should convert 'em' value to pixels based on font size", () => {
+      const element = document.createElement("div");
+      element.style.fontSize = "20px";
     element.style.height = "3em";
 
     const result = convertCssDimensionValueToPixels({
@@ -201,10 +201,10 @@ describe("convertCssDimensionValueToPixels", () => {
     });
 
     expect(result).toBe(60);
-  });
+    });
 
-  it("should convert 'rem' value to pixels based on root font size", () => {
-    document.documentElement.style.fontSize = "16px";
+    it("should convert 'rem' value to pixels based on root font size", () => {
+      document.documentElement.style.fontSize = "16px";
 
     const element = document.createElement("div");
     element.style.height = "2.5rem";
@@ -215,9 +215,9 @@ describe("convertCssDimensionValueToPixels", () => {
     });
 
     expect(result).toBe(40);
-  });
+    });
 
-  it("should convert 'vh' value to pixels based on viewport height", () => {
+    it("should convert 'vh' value to pixels based on viewport height", () => {
     Object.defineProperty(window, "innerHeight", {
       value: 800,
       writable: true,
@@ -232,9 +232,9 @@ describe("convertCssDimensionValueToPixels", () => {
     });
 
     expect(result).toBe(200);
-  });
+    });
 
-  it("should convert 'vw' value to pixels based on viewport width", () => {
+    it("should convert 'vw' value to pixels based on viewport width", () => {
     Object.defineProperty(window, "innerWidth", {
       value: 1000,
       writable: true,
@@ -249,11 +249,11 @@ describe("convertCssDimensionValueToPixels", () => {
     });
 
     expect(result).toBe(150);
-  });
+    });
 
-  it("should throw an error for invalid CSS value", () => {
-    const element = document.createElement("div");
-    element.style.height = "invalid-value";
+    it("should throw an error for invalid CSS value", () => {
+      const element = document.createElement("div");
+      element.style.height = "invalid-value";
 
     expect(() =>
       convertCssDimensionValueToPixels({
@@ -261,9 +261,9 @@ describe("convertCssDimensionValueToPixels", () => {
         cssDimensionProperty: "height",
       })
     ).toThrowError('CSS property "height" is not defined or invalid.');
-  });
+    });
 
-  it("should throw error for unsupported units", () => {
+    it("should throw error for unsupported units", () => {
     const element = document.createElement("div");
     element.style.height = "10pxn";
 
@@ -273,9 +273,9 @@ describe("convertCssDimensionValueToPixels", () => {
         cssDimensionProperty: "height",
       })
     ).toThrowError('CSS property "height" is not defined or invalid.');
-  });
+    });
 
-  it("Should throw an error for a missing unit", () => {
+    it("should throw an error for a missing unit", () => {
     const element = document.createElement("div");
     element.style.height = "10";
     expect(() =>
@@ -284,9 +284,9 @@ describe("convertCssDimensionValueToPixels", () => {
         cssDimensionProperty: "height",
       })
     ).toThrowError('CSS property "height" is not defined or invalid.');
-  });
+    });
 
-  it("should handle missing parent element for '%' value", () => {
+    it("should handle missing parent element for '%' value", () => {
     const element = document.createElement("div");
     element.style.height = "50%";
 
