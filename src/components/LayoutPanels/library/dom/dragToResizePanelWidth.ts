@@ -1,3 +1,5 @@
+import { PANEL_AUTO_CLOSE_THRESHOLD_PX } from "../panelConstants";
+
 import { convertCssDimensionValueToPixels } from "./convertCssDimensionValueToPixels";
 import {
   disableTransition,
@@ -6,8 +8,6 @@ import {
   restoreTransition,
   setupDragEventListeners,
 } from "./dragHelpers";
-
-const AUTO_CLOSE_PANEL_DRAG_THRESHOLD = 25; // px
 
 export function dragToResizePanelWidth({
   closePanel = () => {},
@@ -64,7 +64,7 @@ export function dragToResizePanelWidth({
     const hasDragCrossedCssMaxWidthThreshold =
       newPanelWidth > (currentCssMaxWidth ?? 300);
     const hasDragCrossedAutoCloseThreshold =
-      newPanelWidth < AUTO_CLOSE_PANEL_DRAG_THRESHOLD;
+      newPanelWidth < PANEL_AUTO_CLOSE_THRESHOLD_PX;
 
     if (hasDragCrossedAutoCloseThreshold) {
       handleDragEnd();
