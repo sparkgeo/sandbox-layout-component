@@ -41,7 +41,6 @@ export interface LayoutPanelsProps {
   centerPanelSlotTopRight?: ReactNode;
   centerPanelSlotTopRightClassName?: string;
   children: ReactNode;
-  isBottomPanelOpen?: boolean;
   isLeftPanelOpen?: boolean;
   isLeftPanelResizable?: boolean;
   isLeftPanelToggleable?: boolean;
@@ -422,9 +421,7 @@ export const LayoutPanels = ({
         ) : null}
 
         <div className={layoutPanelStyles.bottomCenterPanelsWrapper}>
-          <div className={layoutPanelStyles.centerPanel}>
-            {children}
-          </div>
+          <div className={layoutPanelStyles.centerPanel}>{children}</div>
           {bottomPanel && (
             <div
               className={`${layoutPanelStyles.bottomPanel} ${bottomPanelClassName ?? ""}`}
