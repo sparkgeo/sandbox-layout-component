@@ -2,7 +2,8 @@ import { describe, it, expect } from "vitest";
 
 import { convertCssDimensionValueToPixels } from "./convertCssDimensionValueToPixels";
 
-describe("convertCssDimensionValueToPixels (width properties)", () => {
+describe("convertCssDimensionValueToPixels", () => {
+  describe("width properties", () => {
   it("should convert 'px' value to pixels", () => {
     const element = document.createElement("div");
     element.style.width = "100px";
@@ -155,9 +156,9 @@ describe("convertCssDimensionValueToPixels (width properties)", () => {
       "Element uses percent unit but has no parent element to calculate width from."
     );
   });
-});
+  });
 
-describe("convertCssDimensionValueToPixels (height properties)", () => {
+  describe("height properties", () => {
   it("should convert 'px' value to pixels", () => {
     const element = document.createElement("div");
     element.style.height = "150px";
@@ -297,5 +298,6 @@ describe("convertCssDimensionValueToPixels (height properties)", () => {
     ).toThrowError(
       "Element uses percent unit but has no parent element to calculate height from."
     );
+  });
   });
 });
