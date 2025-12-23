@@ -1,15 +1,15 @@
 import { describe, it, expect } from "vitest";
 
-import { convertCssWidthPropertyValueToPixels } from "./convertCssWidthPropertyToPixels";
+import { convertCssDimensionValueToPixels } from "./convertCssDimensionValueToPixels";
 
-describe("convertCssWidthPropertyValueToPixels", () => {
+describe("convertCssDimensionValueToPixels (width properties)", () => {
   it("should convert 'px' value to pixels", () => {
     const element = document.createElement("div");
     element.style.width = "100px";
 
-    const result = convertCssWidthPropertyValueToPixels({
+    const result = convertCssDimensionValueToPixels({
       element,
-      cssProperty: "width",
+      cssDimensionProperty: "width",
     });
 
     expect(result).toBe(100);
@@ -24,9 +24,9 @@ describe("convertCssWidthPropertyValueToPixels", () => {
     element.style.width = "50%";
     parent.appendChild(element);
 
-    const result = convertCssWidthPropertyValueToPixels({
+    const result = convertCssDimensionValueToPixels({
       element,
-      cssProperty: "width",
+      cssDimensionProperty: "width",
     });
 
     expect(result).toBe(100);
@@ -39,9 +39,9 @@ describe("convertCssWidthPropertyValueToPixels", () => {
     element.style.fontSize = "16px";
     element.style.width = "2em";
 
-    const result = convertCssWidthPropertyValueToPixels({
+    const result = convertCssDimensionValueToPixels({
       element,
-      cssProperty: "width",
+      cssDimensionProperty: "width",
     });
 
     expect(result).toBe(32);
@@ -53,9 +53,9 @@ describe("convertCssWidthPropertyValueToPixels", () => {
     const element = document.createElement("div");
     element.style.width = "2rem";
 
-    const result = convertCssWidthPropertyValueToPixels({
+    const result = convertCssDimensionValueToPixels({
       element,
-      cssProperty: "width",
+      cssDimensionProperty: "width",
     });
 
     expect(result).toBe(32);
@@ -70,9 +70,9 @@ describe("convertCssWidthPropertyValueToPixels", () => {
     const element = document.createElement("div");
     element.style.width = "10vw";
 
-    const result = convertCssWidthPropertyValueToPixels({
+    const result = convertCssDimensionValueToPixels({
       element,
-      cssProperty: "width",
+      cssDimensionProperty: "width",
     });
 
     expect(result).toBe(100);
@@ -87,9 +87,9 @@ describe("convertCssWidthPropertyValueToPixels", () => {
     const element = document.createElement("div");
     element.style.width = "10vh";
 
-    const result = convertCssWidthPropertyValueToPixels({
+    const result = convertCssDimensionValueToPixels({
       element,
-      cssProperty: "width",
+      cssDimensionProperty: "width",
     });
 
     expect(result).toBe(80);
@@ -99,9 +99,9 @@ describe("convertCssWidthPropertyValueToPixels", () => {
     const element = document.createElement("div");
 
     expect(() =>
-      convertCssWidthPropertyValueToPixels({
+      convertCssDimensionValueToPixels({
         element,
-        cssProperty: "invalid-property",
+        cssDimensionProperty: "invalid-property",
       })
     ).toThrowError(
       'CSS property "invalid-property" is not defined or invalid.'
@@ -113,9 +113,9 @@ describe("convertCssWidthPropertyValueToPixels", () => {
     element.style.width = "fdsfsdgtsdgs";
 
     expect(() =>
-      convertCssWidthPropertyValueToPixels({
+      convertCssDimensionValueToPixels({
         element,
-        cssProperty: "width",
+        cssDimensionProperty: "width",
       })
     ).toThrowError('CSS property "width" is not defined or invalid.');
   });
@@ -125,9 +125,9 @@ describe("convertCssWidthPropertyValueToPixels", () => {
     element.style.width = "10pxn";
 
     expect(() =>
-      convertCssWidthPropertyValueToPixels({
+      convertCssDimensionValueToPixels({
         element,
-        cssProperty: "width",
+        cssDimensionProperty: "width",
       })
     ).toThrowError('CSS property "width" is not defined or invalid.');
   });
@@ -136,9 +136,9 @@ describe("convertCssWidthPropertyValueToPixels", () => {
     const element = document.createElement("div");
     element.style.width = "10";
     expect(() =>
-      convertCssWidthPropertyValueToPixels({
+      convertCssDimensionValueToPixels({
         element,
-        cssProperty: "width",
+        cssDimensionProperty: "width",
       })
     ).toThrowError('CSS property "width" is not defined or invalid.');
   });
@@ -147,12 +147,12 @@ describe("convertCssWidthPropertyValueToPixels", () => {
     element.style.width = "50%";
 
     expect(() =>
-      convertCssWidthPropertyValueToPixels({
+      convertCssDimensionValueToPixels({
         element,
-        cssProperty: "width",
+        cssDimensionProperty: "width",
       })
     ).toThrowError(
-      "The element uses a percent unit, but is unattached to a parent to calculate a percent from."
+      "Element uses percent unit but has no parent element to calculate width from."
     );
   });
 });

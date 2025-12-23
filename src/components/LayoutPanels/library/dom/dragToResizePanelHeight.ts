@@ -6,6 +6,13 @@ import {
 } from "../panelConstants";
 
 import { convertCssDimensionValueToPixels } from "./convertCssDimensionValueToPixels";
+import {
+  disableTransition,
+  getY,
+  removeDragEventListeners,
+  restoreTransition,
+  setupDragEventListeners,
+} from "./dragHelpers";
 
 const getHeightProperty = (
   element: HTMLElement,
@@ -32,15 +39,6 @@ const getInitialHeight = (element: HTMLElement): number => {
   return element.getBoundingClientRect().height;
 };
 
-const getY = (
-  event: MouseEvent | TouchEvent | React.MouseEvent | React.TouchEvent
-): number => {
-  if ("touches" in event) {
-    return (event as TouchEvent).touches[0].screenY;
-  }
-  return (event as MouseEvent).screenY;
-};
-
 export function dragToResizePanelHeight({
   closePanel = () => {},
   divRef,
@@ -63,7 +61,7 @@ export function dragToResizePanelHeight({
   }
 
   const element = divRef.current;
-  const previousTransition = element.style.transition;
+  const previousTransition = disableTransition(element);
   const initialHeight = getInitialHeight(element);
   const minHeight =
     getHeightProperty(element, "min-height") ?? DEFAULT_PANEL_MIN_HEIGHT_PX;
@@ -71,8 +69,6 @@ export function dragToResizePanelHeight({
     getHeightProperty(element, "max-height") ??
     window.innerHeight * DEFAULT_PANEL_MAX_HEIGHT_RATIO;
   const startY = getY(event);
-
-  element.style.transition = "none";
 
   let newHeightPixels = `${initialHeight}px`;
   let hasMoved = false;
@@ -119,23 +115,11 @@ export function dragToResizePanelHeight({
     element.style.height = newHeightPixels;
   };
 
-  const removeEventListeners = () => {
-    window.removeEventListener("mousemove", handleDragMove);
-    window.removeEventListener("touchmove", handleDragMove);
-    window.removeEventListener("mouseup", handleDragEnd);
-    window.removeEventListener("touchend", handleDragEnd);
-  };
-
   const handleDragEnd = () => {
-    removeEventListeners();
-
-    element.style.transition = previousTransition || "";
-
+    removeDragEventListeners(handleDragMove, handleDragEnd);
+    restoreTransition(element, previousTransition);
     onMoveEnd(newHeightPixels);
   };
 
-  window.addEventListener("mousemove", handleDragMove);
-  window.addEventListener("touchmove", handleDragMove);
-  window.addEventListener("mouseup", handleDragEnd);
-  window.addEventListener("touchend", handleDragEnd);
+  setupDragEventListeners(handleDragMove, handleDragEnd);
 }

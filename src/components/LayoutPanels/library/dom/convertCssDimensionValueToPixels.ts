@@ -34,11 +34,6 @@ const inferDimensionFromCssProperty = (
   );
 };
 
-/**
- * Converts a CSS dimension property value to pixels.
- * Supports: px, %, em, rem, vh, vw.
- * The dimension is automatically inferred from the cssDimensionProperty name.
- */
 export const convertCssDimensionValueToPixels = ({
   element,
   cssDimensionProperty,
