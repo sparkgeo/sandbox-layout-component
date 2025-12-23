@@ -14,6 +14,19 @@ import { PanelContentsWrapperWithOptionalSubpanel } from "./PanelContentsWrapper
 
 const BOTTOM_PANEL_HEIGHT = "376px";
 const MAX_BOTTOM_PANEL_NEGATIVE_MARGIN = "100px"; // Maximum negative margin to keep arrow visible
+
+const parsePxValue = (value: string): number => {
+  if (!value.endsWith("px")) {
+    throw new Error(
+      `Invalid pixel value format: "${value}". Expected format: "100px"`
+    );
+  }
+  const numericValue = parseFloat(value.slice(0, -2));
+  if (isNaN(numericValue)) {
+    throw new Error(`Invalid pixel value: "${value}". Could not parse number.`);
+  }
+  return numericValue;
+};
 export interface LayoutPanelsProps {
   centerPanelSlotBottomCenter?: ReactNode;
   centerPanelSlotBottomCenterClassName?: string;
@@ -175,10 +188,8 @@ export const LayoutPanels = ({
     // When closed, limit the negative margin to keep the arrow visible
     // Set height to match the clamped margin for smooth transition
     const panelHeight = bottomPanelResizableHeight ?? BOTTOM_PANEL_HEIGHT;
-    const panelHeightPx = parseFloat(panelHeight.replace("px", ""));
-    const maxNegativeMarginPx = parseFloat(
-      MAX_BOTTOM_PANEL_NEGATIVE_MARGIN.replace("px", "")
-    );
+    const panelHeightPx = parsePxValue(panelHeight);
+    const maxNegativeMarginPx = parsePxValue(MAX_BOTTOM_PANEL_NEGATIVE_MARGIN);
     const clampedNegativeMargin = Math.min(panelHeightPx, maxNegativeMarginPx);
 
     return {

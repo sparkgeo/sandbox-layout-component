@@ -48,7 +48,7 @@ function App() {
         }
         subpanelContent={<>optional subpanel contents</>}
         rightPanelContent={<>Optional right panel</>}
-        bottomPanel={<>{<>Optional bottom panel</>}</>}
+        bottomPanel={<>Optional bottom panel</>}
         setIsLeftPanelOpen={customHandleLeftPanelToggle}
         isLeftPanelOpen={isLeftPanelOpenOverride}
         isLeftPanelResizable={true}
