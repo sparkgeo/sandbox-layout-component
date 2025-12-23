@@ -16,6 +16,17 @@
   -webkit-touch-callout: none; // prevents a long press from doing anything
 }
 
+@mixin bottomPanelResizerTarget {
+  all: unset;
+  width: 100%;
+  height: 5px;
+  position: absolute;
+  top: 0;
+  cursor: row-resize;
+  touch-action: none; // prevent zooming, scrolling, etc on touch devices
+  -webkit-touch-callout: none; // prevents a long press from doing anything
+}
+
 .centerPanelSlotTopLeft {
   @include centerPanelSlot;
   top: $mapElementMargin;
@@ -64,6 +75,8 @@
   height: 100%;
   display: flex;
   justify-content: space-between;
+  min-height: 0;
+  overflow: hidden;
 }
 .centerPanelWrapper {
   flex-grow: 1;
@@ -74,15 +87,28 @@
   flex-direction: column;
   width: 100%;
   height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
 }
 .bottomPanel {
-  transition: margin 0.5s ease-in-out;
+  transition:
+    margin 0.5s ease-in-out,
+    height 0.5s ease-in-out;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 100px;
+  max-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   @media (prefers-reduced-motion) {
     transition: none;
   }
 }
 .centerPanel {
   flex-grow: 1;
+  position: relative;
 }
 .panel {
   transition: margin 0.5s ease-in-out;
@@ -117,6 +143,14 @@
   z-index: $zIndexOnTopOfMap;
   border: solid thin orange;
 }
+.bottomPanelCloseTab {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: $zIndexOnTopOfMap;
+  border: solid thin orange;
+}
 
 .leftPanelResizerTarget {
   @include panelResizerTarget;
@@ -125,4 +159,8 @@
 .rightPanelResizerTarget {
   @include panelResizerTarget;
   left: 0;
+}
+.bottomPanelResizerTarget {
+  @include bottomPanelResizerTarget;
+  top: 0;
 }

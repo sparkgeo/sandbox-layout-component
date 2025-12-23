@@ -8,13 +8,26 @@ import React, {
 } from "react";
 
 import layoutPanelStyles from "./LayoutPanels.module.scss";
+import { dragToResizePanelHeight } from "./library/dom/dragToResizePanelHeight";
 import { dragToResizePanelWidth } from "./library/dom/dragToResizePanelWidth";
 import { PanelContentsWrapperWithOptionalSubpanel } from "./PanelContentsWrapperWithOptionalSubpanel/PanelContentsWrapperWithOptionalSubpanel";
 
 const BOTTOM_PANEL_HEIGHT = "376px";
+const MAX_BOTTOM_PANEL_NEGATIVE_MARGIN = "100px"; // Maximum negative margin to keep arrow visible
+
+const parsePxValue = (value: string): number => {
+  if (!value.endsWith("px")) {
+    throw new Error(
+      `Invalid pixel value format: "${value}". Expected format: "100px"`
+    );
+  }
+  const numericValue = parseFloat(value.slice(0, -2));
+  if (isNaN(numericValue)) {
+    throw new Error(`Invalid pixel value: "${value}". Could not parse number.`);
+  }
+  return numericValue;
+};
 export interface LayoutPanelsProps {
-  bottomPanel?: ReactNode;
-  bottomPanelClassName?: string;
   centerPanelSlotBottomCenter?: ReactNode;
   centerPanelSlotBottomCenterClassName?: string;
   centerPanelSlotBottomLeft?: ReactNode;
@@ -32,7 +45,16 @@ export interface LayoutPanelsProps {
   centerPanelSlotTopRight?: ReactNode;
   centerPanelSlotTopRightClassName?: string;
   children: ReactNode;
+  bottomPanel?: ReactNode;
+  bottomPanelClassName?: string;
   isBottomPanelOpen?: boolean;
+  isBottomPanelResizable?: boolean;
+  isBottomPanelToggleable?: boolean;
+  bottomPanelToggleButton?: ReactElement<
+    React.HTMLAttributes<HTMLButtonElement>
+  >;
+  bottomPanelToggleButtonContainerClassName?: string;
+  setIsBottomPanelOpen?: Dispatch<SetStateAction<boolean>>;
   isLeftPanelOpen?: boolean;
   isLeftPanelResizable?: boolean;
   isLeftPanelToggleable?: boolean;
@@ -78,6 +100,11 @@ export const LayoutPanels = ({
   centerPanelSlotTopRightClassName = undefined,
   children,
   isBottomPanelOpen = undefined,
+  isBottomPanelResizable = false,
+  isBottomPanelToggleable = true,
+  bottomPanelToggleButton = undefined,
+  bottomPanelToggleButtonContainerClassName = undefined,
+  setIsBottomPanelOpen = undefined,
   isLeftPanelOpen = undefined,
   isLeftPanelResizable = false,
   isLeftPanelToggleable = true,
@@ -101,6 +128,7 @@ export const LayoutPanels = ({
 }: LayoutPanelsProps) => {
   const leftPanelRef = useRef<HTMLDivElement>(null);
   const rightPanelRef = useRef<HTMLDivElement>(null);
+  const bottomPanelRef = useRef<HTMLDivElement>(null);
   if (subpanelContent && (!setIsSubpanelOpen || isSubpanelOpen === undefined)) {
     throw new Error(
       "subpanelContent prop was provided, but setIsSubpanelOpen and isSubpanelOpen were not provided. This is required to control the subpanel's open state. isSubpanelOpen must be initialized to a boolean value"
@@ -110,22 +138,31 @@ export const LayoutPanels = ({
 
   const [isRightPanelOpenInternal, setIsRightPanelOpenInternal] =
     useState(true);
+  const [isBottomPanelOpenInternal, setIsBottomPanelOpenInternal] =
+    useState(true);
   const [leftPanelResizableWidth, setLeftPanelResizableWidth] =
     useState<string>();
   const [rightPanelResizableWidth, setRightPanelResizableWidth] =
     useState<string>();
+  const [bottomPanelResizableHeight, setBottomPanelResizableHeight] =
+    useState<string>();
 
   const isLeftPanelOpenToUse = isLeftPanelOpen ?? isLeftPanelOpenInternal;
   const isRightPanelOpenToUse = isRightPanelOpen ?? isRightPanelOpenInternal;
+  const isBottomPanelOpenToUse = isBottomPanelOpen ?? isBottomPanelOpenInternal;
   const [isLeftPanelContentShowing, setIsLeftPanelContentShowing] =
     useState(isLeftPanelOpenToUse);
   const [isRightPanelContentShowing, setIsRightPanelContentShowing] = useState(
     isRightPanelOpenToUse
   );
+  const [isBottomPanelContentShowing, setIsBottomPanelContentShowing] =
+    useState(isBottomPanelOpenToUse);
   const setIsLeftPanelOpenToUse =
     setIsLeftPanelOpen ?? setIsLeftPanelOpenInternal;
   const setIsRightPanelOpenToUse =
     setIsRightPanelOpen ?? setIsRightPanelOpenInternal;
+  const setIsBottomPanelOpenToUse =
+    setIsBottomPanelOpen ?? setIsBottomPanelOpenInternal;
   const leftPanelDynamicStyles = useMemo(() => {
     return leftPanelResizableWidth
       ? {
@@ -140,14 +177,31 @@ export const LayoutPanels = ({
     width: rightPanelResizableWidth,
     marginRight: isRightPanelOpenToUse ? "0px" : `-${rightPanelResizableWidth}`,
   };
-  const bottomPanelDynamicStyles = {
-    marginBottom: isBottomPanelOpen ? "0px" : `-${BOTTOM_PANEL_HEIGHT}`,
-    height: BOTTOM_PANEL_HEIGHT,
-  };
+  const bottomPanelDynamicStyles = useMemo(() => {
+    if (isBottomPanelOpenToUse) {
+      return {
+        height: bottomPanelResizableHeight ?? BOTTOM_PANEL_HEIGHT,
+        marginBottom: "0px",
+      };
+    }
+
+    // When closed, limit the negative margin to keep the arrow visible
+    // Set height to match the clamped margin for smooth transition
+    const panelHeight = bottomPanelResizableHeight ?? BOTTOM_PANEL_HEIGHT;
+    const panelHeightPx = parsePxValue(panelHeight);
+    const maxNegativeMarginPx = parsePxValue(MAX_BOTTOM_PANEL_NEGATIVE_MARGIN);
+    const clampedNegativeMargin = Math.min(panelHeightPx, maxNegativeMarginPx);
+
+    return {
+      height: `${clampedNegativeMargin}px`,
+      marginBottom: `-${clampedNegativeMargin}px`,
+    };
+  }, [isBottomPanelOpenToUse, bottomPanelResizableHeight]);
 
   useEffect(function initializeResizableWidths() {
     setLeftPanelResizableWidth(`${leftPanelRef.current?.offsetWidth}px`);
     setRightPanelResizableWidth(`${rightPanelRef.current?.offsetWidth}px`);
+    setBottomPanelResizableHeight(`${bottomPanelRef.current?.offsetHeight}px`);
   }, []);
 
   const dragToResizeLeftPanel = (
@@ -176,6 +230,22 @@ export const LayoutPanels = ({
       },
     });
   };
+
+  const dragToResizeBottomPanel = (
+    event: React.MouseEvent | React.TouchEvent
+  ) => {
+    dragToResizePanelHeight({
+      event,
+      divRef: bottomPanelRef,
+      onMoveEnd: setBottomPanelResizableHeight,
+      isTopEdgeResizeTarget: true,
+      closePanel: () => {
+        setIsBottomPanelOpenToUse(false);
+        // Reset height to default when panel closes via drag resize
+        setBottomPanelResizableHeight(undefined);
+      },
+    });
+  };
   const handleLeftPanelTransitionEnd = () => {
     if (!isLeftPanelOpenToUse) {
       setIsLeftPanelContentShowing(false); // in addition to moving panels over, we hide content to assistive technology, tabbing
@@ -184,6 +254,15 @@ export const LayoutPanels = ({
   const handleRightPanelTransitionEnd = () => {
     if (!isRightPanelOpenToUse) {
       setIsRightPanelContentShowing(false); // in addition to moving panels over, we hide content to assistive technology, tabbing
+    }
+  };
+  const handleBottomPanelTransitionEnd = () => {
+    if (!isBottomPanelOpenToUse) {
+      setIsBottomPanelContentShowing(false); // in addition to moving panels over, we hide content to assistive technology, tabbing
+      // Clear inline height style that might have been set during drag resize
+      if (bottomPanelRef.current) {
+        bottomPanelRef.current.style.removeProperty("height");
+      }
     }
   };
 
@@ -198,14 +277,24 @@ export const LayoutPanels = ({
       if (isRightPanelOpenToUse) {
         setIsRightPanelContentShowing(true);
       }
+      if (isBottomPanelOpenToUse) {
+        setIsBottomPanelContentShowing(true);
+
+        if (bottomPanelRef.current) {
+          bottomPanelRef.current.style.removeProperty("height");
+        }
+      }
     },
-    [isLeftPanelOpenToUse, isRightPanelOpenToUse]
+    [isLeftPanelOpenToUse, isRightPanelOpenToUse, isBottomPanelOpenToUse]
   );
   const handleRightToggleButtonClick = () => {
     setIsRightPanelOpenToUse((previous) => !previous);
   };
   const handleLeftToggleButtonClick = () => {
     setIsLeftPanelOpenToUse((previous) => !previous);
+  };
+  const handleBottomToggleButtonClick = () => {
+    setIsBottomPanelOpenToUse((previous) => !previous);
   };
   const internalRightPanelCloseButton = (
     <button
@@ -238,6 +327,23 @@ export const LayoutPanels = ({
         "aria-label": "Toggle left panel",
       })
     : internalLeftPanelCloseButton;
+
+  const internalBottomPanelCloseButton = (
+    <button
+      className={layoutPanelStyles.panelCloseButton}
+      onClick={handleBottomToggleButtonClick}
+      aria-label="Toggle bottom panel"
+    >
+      {isBottomPanelOpenToUse ? "v" : "^"}
+    </button>
+  );
+
+  const bottomPanelButtonToUse = bottomPanelToggleButton
+    ? cloneElement(bottomPanelToggleButton, {
+        onClick: handleBottomToggleButtonClick,
+        "aria-label": "Toggle bottom panel",
+      })
+    : internalBottomPanelCloseButton;
 
   const configuredLeftPanel = (
     <div
@@ -338,15 +444,31 @@ export const LayoutPanels = ({
             {centerPanelSlotCenterLeft}
           </div>
         )}
-
         <div className={layoutPanelStyles.bottomCenterPanelsWrapper}>
           <div className={layoutPanelStyles.centerPanel}>{children}</div>
           {bottomPanel && (
             <div
               className={`${layoutPanelStyles.bottomPanel} ${bottomPanelClassName ?? ""}`}
               style={bottomPanelDynamicStyles}
+              ref={bottomPanelRef}
+              onTransitionEnd={handleBottomPanelTransitionEnd}
+              data-testid="bottomPanel"
             >
-              {bottomPanel}
+              {isBottomPanelToggleable ? (
+                <div
+                  className={`${layoutPanelStyles.bottomPanelCloseTab} ${bottomPanelToggleButtonContainerClassName ?? ""}`}
+                >
+                  {bottomPanelButtonToUse}
+                </div>
+              ) : null}
+              {isBottomPanelContentShowing ? bottomPanel : null}
+              {isBottomPanelResizable ? (
+                <button
+                  className={layoutPanelStyles.bottomPanelResizerTarget}
+                  onMouseDown={dragToResizeBottomPanel}
+                  onTouchStart={dragToResizeBottomPanel}
+                />
+              ) : null}
             </div>
           )}
         </div>

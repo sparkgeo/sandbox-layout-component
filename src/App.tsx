@@ -8,6 +8,7 @@ import { useInitializeMap } from "./components/Map/useInitializeMap";
 function App() {
   const [isLeftPanelOpenOverride, setIsLeftPanelOpenOverride] = useState(true);
   const [isSubpanelOpen, setIsSubpanelOpen] = useState(true);
+  const [isBottomPanelOpen, setIsBottomPanelOpen] = useState(true);
 
   const customHandleLeftPanelToggle = () => {
     setIsLeftPanelOpenOverride((previous) => !previous);
@@ -47,10 +48,14 @@ function App() {
         }
         subpanelContent={<>optional subpanel contents</>}
         rightPanelContent={<>Optional right panel</>}
+        bottomPanel={<>Optional bottom panel</>}
         setIsLeftPanelOpen={customHandleLeftPanelToggle}
         isLeftPanelOpen={isLeftPanelOpenOverride}
         isLeftPanelResizable={true}
         isRightPanelResizable={true}
+        isBottomPanelResizable={true}
+        isBottomPanelOpen={isBottomPanelOpen}
+        setIsBottomPanelOpen={setIsBottomPanelOpen}
         isSubpanelOpen={isSubpanelOpen}
         setIsSubpanelOpen={setIsSubpanelOpen}
       >
